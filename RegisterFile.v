@@ -1,6 +1,6 @@
 `timescale 1 ns / 1 ps
 
-module RegisterFile ( ReadRegister1 ,ReadRegister2 ,WriteRegister ,WriteData ,RegWrite ,clk ,ReadData1 ,ReadData2  );
+module RegisterFile (ReadData1 ,ReadData2 ,ReadRegister1 ,ReadRegister2 ,WriteRegister ,WriteData ,RegWrite ,clk);
 
 //outputs declaration
 output [31:0] ReadData1 ;
