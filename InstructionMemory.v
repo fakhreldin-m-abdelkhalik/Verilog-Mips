@@ -4,7 +4,7 @@ module InstructionMemory(clock,PC,Instruction);
 	input wire [31:0] PC;
 	output reg [31:0] Instruction;
 
-	parameter IMSize = 4294967295;
+	parameter IMSize = 1024;
 
 	reg[7:0] InstructionMemory[0:IMSize];
 
