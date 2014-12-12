@@ -12,10 +12,7 @@ module InstructionMemory(clock,PC,Instruction);
 		$readmemh("file",memory);
 	end
 	
-	always @(PC) begin
-		Instruction <= {InstructionMemory[PC],InstructionMemory[PC+1],InstructionMemory[PC+2],InstructionMemory[PC+3]};
-	end
-	
+	assign Instruction <= {InstructionMemory[PC],InstructionMemory[PC+1],InstructionMemory[PC+2],InstructionMemory[PC+3]};	
 
 endmodule
 
