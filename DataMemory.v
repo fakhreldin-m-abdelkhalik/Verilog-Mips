@@ -7,7 +7,7 @@ module DataMemory(clock,MemoryRead,MemoryWrite,Address,InputData,OutputData);
 	input wire [31:0] InputData;
 	output reg [31:0] OutputData;
 
-	parameter DMSize = 4294967295 ;
+	parameter DMSize = 1024 ;
 
 	reg[7:0] DataMemory[0:DMSize];
 
