@@ -11,7 +11,7 @@ module DataMemory(clock,MemoryRead,MemoryWrite,Address,InputData,OutputData);
 
 	reg[7:0] DataMemory[0:DMSize];
 
-	always@(posedge clock) begin
+	always@(Address) begin
 
 		if(MemoryRead) begin
 			OutputData <= {DataMemory[Address],DataMemory[Address+1],DataMemory[Address+2],DataMemory[Address+3]};
