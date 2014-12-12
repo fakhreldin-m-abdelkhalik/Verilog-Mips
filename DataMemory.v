@@ -11,7 +11,7 @@ module DataMemory(clock,MemoryRead,MemoryWrite,Address,InputData,OutputData);
 
 	reg[7:0] DataMemory[0:DMSize];
 
-	always @(clock) begin
+	always @(posedge clock) begin
 
 		if(MemoryWrite) begin
 			DataMemory[Address] <= InputData[31:24];
