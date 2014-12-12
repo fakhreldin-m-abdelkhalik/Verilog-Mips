@@ -4,9 +4,9 @@ module RegisterFile (ReadData1 ,ReadData2 ,ReadRegister1 ,ReadRegister2 ,WriteRe
 
 //outputs declaration
 output [31:0] ReadData1 ;
-reg [31:0] ReadData1 ;
+wire [31:0] ReadData1 ;
 output [31:0] ReadData2 ;
-reg [31:0] ReadData2 ;
+wire [31:0] ReadData2 ;
 
 //inputs declaration
 input [4:0] ReadRegister1 ;
@@ -26,17 +26,8 @@ wire clk;
 reg [31:0] Registers [31:0];
 
 //Reading from registers
-always @(ReadRegister1 or ReadRegister2 or Registers[ReadRegister1] or Registers[ReadRegister2])
-begin
-	if(ReadRegister1==0)
-		ReadData1<=0;
-	else	
-		ReadData1<=Registers[ReadRegister1];
-	if(ReadRegister2==0)
-		ReadData2<=0;
-	else	
-		ReadData2<=Registers[ReadRegister2];
-end	
+assign  ReadData1=(ReadRegister1==5'b0) ? 32'b0 : Registers[ReadRegister1];
+assign  ReadData2=(ReadRegister2==5'b0) ? 32'b0 : Registers[ReadRegister2];
 
 //Writing in registers
 always @(posedge clk)	
