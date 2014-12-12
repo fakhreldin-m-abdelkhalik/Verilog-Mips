@@ -1,9 +1,9 @@
 module ALU_CU(ALU_control, JumpReg, func, ALUOp);
 
-input  func;
-input  ALUOp;
+input  [5:0] func;
+input  [2:0] ALUOp;
 
-output ALU_control;
+output [3:0] ALU_control;
 output JumpReg;
 
 wire  [5:0] func;
