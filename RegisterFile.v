@@ -26,16 +26,16 @@ wire clk;
 reg [31:0] Registers [31:0];
 
 //Reading from registers
-always @(ReadRegister1 or ReadRegister2)
+always @(ReadRegister1 or ReadRegister2 or Registers[ReadRegister1] or Registers[ReadRegister2])
 begin
 	if(ReadRegister1==0)
 		ReadData1<=0;
 	else	
-		ReadData1=Registers[ReadRegister1];
+		ReadData1<=Registers[ReadRegister1];
 	if(ReadRegister2==0)
 		ReadData2<=0;
 	else	
-		ReadData2=Registers[ReadRegister2];
+		ReadData2<=Registers[ReadRegister2];
 end	
 
 //Writing in registers
