@@ -1,6 +1,5 @@
-module InstructionMemory(clock,PC,Instruction);
+module InstructionMemory(PC,Instruction);
 	
-	input wire clock;
 	input wire [31:0] PC;
 	output wire [31:0] Instruction;
 	integer file;
