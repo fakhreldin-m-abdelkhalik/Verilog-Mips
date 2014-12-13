@@ -41,7 +41,7 @@ module MIPS(clk);
 	control_unit CU(Instruction[31:26],RegDst,Jump,JumpAndLink,Branch,MemRead,MemtoReg,ALUOp,MemWrite,ALUSrc,RegWrite);
 	mux_5 Rd_Rt_mux(RtRd_mux_Jal_mux,RegDst,Instruction[20:16],Instruction[15:11]);
 	mux_5 Jal_mux1(WriteRegister,JumpAndLink,RtRd_mux_Jal_mux,31);
-	mux_1 JumpReg_mux_RF(JumpReg_mux_RF,JumpReg,RegWrite,0);
+	mux_1 JumpReg_muxRF(JumpReg_mux_RF,JumpReg,RegWrite,0);
 	RegisterFile RF(ReadData1,ReadData2,Instruction[25:21],Instruction[20:16],WriteRegister,WriteData_RF,RegWrite,clk);
 	SignExtension SE(Instruction[15:0],Sign_extension_output);
 	mux_32 ALUSrc_mux(ALUSrc_mux_output,ALUSrc,ReadData2,Sign_extension_output);
