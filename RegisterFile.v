@@ -1,5 +1,3 @@
-`timescale 1 ns / 1 ps
-
 module RegisterFile (ReadData1 ,ReadData2 ,ReadRegister1 ,ReadRegister2 ,WriteRegister ,WriteData ,RegWrite ,clk);
 
 //outputs declaration
