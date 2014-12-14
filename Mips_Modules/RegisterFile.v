@@ -33,4 +33,10 @@ begin
 	if(RegWrite&&WriteRegister!=0) 
 			Registers[WriteRegister]<=WriteData;
 end
+
+initial
+begin
+	Registers[0]=0;
+end
+
 endmodule
