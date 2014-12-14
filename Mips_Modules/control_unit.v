@@ -40,6 +40,7 @@ reg RegWrite;
 
 always @ (op_code)
 begin
+	#0.2 //delay 200ps for Control Unit
 	if (op_code == 'h00) begin	  //R-type
 		RegDst      <= 1;
 		Jump        <= 0;

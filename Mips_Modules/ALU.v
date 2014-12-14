@@ -10,7 +10,8 @@ output reg [31:0] ALU_out;
 output reg ALU_zero;
 
 
-always@(ALU_reg_1, ALU_reg_2, ALU_control) begin 
+always@(ALU_reg_1, ALU_reg_2, ALU_control) begin
+#0.2 //delay 200ps for ALU 
 case(ALU_control)
 4'b0000 : ALU_out <= ALU_reg_1 & ALU_reg_2;         //AND
 4'b0001 : ALU_out <= ALU_reg_1 | ALU_reg_2;         //OR
