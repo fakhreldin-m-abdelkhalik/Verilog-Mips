@@ -1,6 +1,5 @@
 module MIPS;
 	reg clk;
-	wire clk;
 	wire [31:0] JumpReg_mux_PC;
 	wire [31:0] PC_output;
 	wire [31:0] PC_adder_output;
