@@ -1,5 +1,5 @@
-module MIPS(clk);
-	input clk;
+module MIPS;
+	reg clk;
 	wire clk;
 	wire [31:0] JumpReg_mux_PC;
 	wire [31:0] PC_output;
@@ -45,7 +45,7 @@ module MIPS(clk);
 	RegisterFile RF(ReadData1,ReadData2,Instruction[25:21],Instruction[20:16],WriteRegister,WriteData_RF,RegWrite,clk);
 	SignExtension SE(Instruction[15:0],Sign_extension_output);
 	mux_32 ALUSrc_mux(ALUSrc_mux_output,ALUSrc,ReadData2,Sign_extension_output);
-	PC_ALU Branch_adder(PC_adder_output,{Sign_extension_output[31:2],2'b00},Branch_adder_Branch_mux);
+	PC_ALU Branch_adder(PC_adder_output,{Sign_extension_output[29:0],2'b00},Branch_adder_Branch_mux);
 	ALU MainALU(ReadData1,ALUSrc_mux_output,ALU_control,ALU_output,ALU_zero,Instruction[10:6]);	
 	ALU_CU ALU_controller(ALU_control,JumpReg,Instruction[5:0],ALUOp);
 	DataMemory DM(clk,MemRead,MemWrite,ALU_output,ReadData2,ReadDataMemory);
@@ -55,4 +55,9 @@ module MIPS(clk);
 	mux_32 JumpReg_mux(JumpReg_mux_PC,JumpReg,Jump_mux_JumpReg_mux,ReadData1);
 	mux_32 MemtoReg_mux(MemtoReg_mux_output,MemtoReg,ALU_output,ReadDataMemory);
 	mux_32 Jal_mux2(WriteData_RF,JumpAndLink,MemtoReg_mux_output,PC_adder_output);
+
+	always
+	begin
+		#5 clk=~clk;
+	end
 endmodule
