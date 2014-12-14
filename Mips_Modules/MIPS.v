@@ -1,5 +1,5 @@
-module MIPS(clk);
-	input clk;
+module MIPS;
+	reg clk;
 	wire clk;
 	wire [31:0] JumpReg_mux_PC;
 	wire [31:0] PC_output;
@@ -55,4 +55,9 @@ module MIPS(clk);
 	mux_32 JumpReg_mux(JumpReg_mux_PC,JumpReg,Jump_mux_JumpReg_mux,ReadData1);
 	mux_32 MemtoReg_mux(MemtoReg_mux_output,MemtoReg,ALU_output,ReadDataMemory);
 	mux_32 Jal_mux2(WriteData_RF,JumpAndLink,MemtoReg_mux_output,PC_adder_output);
+
+	always
+	begin
+		#5 clk=~clk;
+	end
 endmodule
