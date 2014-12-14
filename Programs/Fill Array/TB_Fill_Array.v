@@ -19,7 +19,7 @@ initial begin
 	
 	$readmemh("C:/Users/Fakhr El Din/Desktop/Verilog-Mips/Programs/Fill Array/Instructions.txt", cpu.IM.InstructionMemory);
 	
-	#760
+	#121.6
 
 	$display("Final value of PC = %h", cpu.ProgCounter.OUT);
 	for (i = 0; i < 32; i = i + 1) begin
