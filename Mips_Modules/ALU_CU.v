@@ -1,3 +1,4 @@
+`timescale 1ps/1ps
 module ALU_CU(ALU_control, JumpReg, func, ALUOp);
 
 input  [5:0] func;
@@ -13,7 +14,7 @@ reg   [3:0] ALU_control;
 reg   JumpReg;
 
 always @ (ALUOp or func) begin
-		#0.1 //delay 100ps for ALU-ControlUnit
+		#100 //delay 100ps for ALU-ControlUnit
 		
 		if (ALUOp == 'b000) begin       //add
 			JumpReg       <= 0;

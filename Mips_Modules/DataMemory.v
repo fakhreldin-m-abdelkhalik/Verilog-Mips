@@ -1,3 +1,4 @@
+`timescale 1ps/1ps
 module DataMemory(clock,MemoryRead,MemoryWrite,Address,InputData,OutputData);
 
 	input wire clock;
@@ -12,7 +13,7 @@ module DataMemory(clock,MemoryRead,MemoryWrite,Address,InputData,OutputData);
 	reg[7:0] DataMemory[0:DMSize];
 
 	always @(posedge clock) begin
-		#0.2 //delay 200ps for data memory
+		#200 //delay 200ps for data memory
 		if(MemoryWrite) begin
 			DataMemory[Address] <= InputData[31:24];
 			DataMemory[Address+1] <= InputData[23:16];
@@ -22,6 +23,6 @@ module DataMemory(clock,MemoryRead,MemoryWrite,Address,InputData,OutputData);
 		end
 	end
 	
-	assign #0.2 OutputData = (MemoryRead)?{DataMemory[Address],DataMemory[Address+1],DataMemory[Address+2],DataMemory[Address+3]}: 32'b0 ;
+	assign #200 OutputData = (MemoryRead)?{DataMemory[Address],DataMemory[Address+1],DataMemory[Address+2],DataMemory[Address+3]}: 32'b0 ;
 
 endmodule

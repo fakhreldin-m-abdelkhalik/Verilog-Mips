@@ -1,3 +1,4 @@
+`timescale 1ps/1ps
 module InstructionMemory(PC,Instruction);
 	
 	input wire [31:0] PC;
@@ -7,7 +8,7 @@ module InstructionMemory(PC,Instruction);
 
 	reg[7:0] InstructionMemory[0:IMSize];
 	
-	assign #0.2 Instruction = {InstructionMemory[PC],InstructionMemory[PC+1],InstructionMemory[PC+2],InstructionMemory[PC+3]};	
+	assign #200 Instruction = {InstructionMemory[PC],InstructionMemory[PC+1],InstructionMemory[PC+2],InstructionMemory[PC+3]};	
 
 endmodule
 
