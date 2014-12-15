@@ -13,7 +13,6 @@ string instructions[1000];		//array of instructions
 int i;							//number of instructions
 
 map < string, int > labels;     //any label in source code and its address
-<<<<<<< HEAD
 map <string, string> op_code;
 map <string, string> function;
 map <string, string> registers;
@@ -22,23 +21,16 @@ map <string, string> registers;
 void init_op_code();
 void init_function();
 void init_registers();
->>>>>>> d4eebe9b130f8c40039aaa298f00d05d7cc2df68
 void read_data(ifstream& input);								 //reading data from input file --> filling instructions array
 void tokenize(string& s, string tokens[], string delimiters);	 //extract tokens from string (the tokens splitted each by the delimiters passed)
 bool is_delimiter(char c, string delimiters);					 //check passed charcter is a delimiter or not
 string with_no_first_spaces(string& s);							//removing any spaces in the begining of the string
 
 int main() {
-<<<<<<< HEAD
-	void init_op_code();
-	void init_function();
-	void init_registers();
-=======
 
 	init_op_code();
 	init_function();
 	init_registers();
->>>>>>> d4eebe9b130f8c40039aaa298f00d05d7cc2df68
 
 	ifstream code;
 
