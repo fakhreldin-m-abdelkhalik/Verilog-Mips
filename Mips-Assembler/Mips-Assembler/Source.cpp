@@ -13,6 +13,7 @@ string instructions[1000];		//array of instructions
 int i;							//number of instructions
 
 map < string, int > labels;     //any label in source code and its address
+
 void init_op_code();
 void init_function();
 void init_registers();
@@ -78,6 +79,7 @@ void read_data(ifstream& input) {
 	}
 
 	while (getline(input, s)) {
+<<<<<<< HEAD
 		s = with_no_first_spaces(s);
 		tokenize(s, tokens, " ,");					//toknize each line
 
@@ -86,6 +88,22 @@ void read_data(ifstream& input) {
 
 		else if (s[0] != 0)
 			instructions[i++] = s;
+=======
+		if (s[0] != 0) {
+			s = with_no_first_spaces(s);
+			tokenize(s, tokens, " ,");					//toknize each line
+
+			if (tokens[0].find(':') != string::npos) {
+				labels[tokens[0].substr(0, tokens[0].length() - 1)] = i * 4;
+				string ss = with_no_first_spaces(s.substr(tokens[0].length()));
+				string str = tokens[0] + ss;
+				if (str.length() != tokens[0].length())
+					instructions[i++] = ss;
+			}
+			else
+				instructions[i++] = s;
+		}
+>>>>>>> 6437a72a3c6571e93b4a05e71a0c4abce800a034
 	}
 	input.close();									//close the file
 }
@@ -94,7 +112,7 @@ void tokenize(string& s, string tokens[], string delimiters) {
 	string token;
 	int n_tokens = 0;
 	for (int i = 0; i < s.length(); i++) {
-		if (is_delimiter(s[i], " ,")) {
+		if (is_delimiter(s[i], delimiters)) {
 			tokens[n_tokens++] = token;
 			token = "";
 			while (is_delimiter(s[i + 1], " ,"))
