@@ -1,3 +1,4 @@
+`timescale 1ps/1ps
 module RegisterFile (ReadData1 ,ReadData2 ,ReadRegister1 ,ReadRegister2 ,WriteRegister ,WriteData ,RegWrite ,clk);
 
 //outputs declaration
@@ -24,12 +25,13 @@ wire clk;
 reg [31:0] Registers [31:0];
 
 //Reading from registers
-assign  ReadData1=(ReadRegister1==5'b0) ? 32'b0 : Registers[ReadRegister1];
-assign  ReadData2=(ReadRegister2==5'b0) ? 32'b0 : Registers[ReadRegister2];
+assign #100  ReadData1=(ReadRegister1==5'b0) ? 32'b0 : Registers[ReadRegister1];
+assign #100  ReadData2=(ReadRegister2==5'b0) ? 32'b0 : Registers[ReadRegister2];
 
 //Writing in registers
 always @(posedge clk)	
 begin
+	#100 //delay 100ps for RF
 	if(RegWrite&&WriteRegister!=0) 
 			Registers[WriteRegister]<=WriteData;
 end
