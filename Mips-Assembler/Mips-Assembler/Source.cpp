@@ -5,18 +5,30 @@
 
 using namespace std;
 
+map <string, string> op_code;
+map <string, string> function;
+map <string, string> registers;
+
 string instructions[1000];		//array of instructions
 int i;							//number of instructions
 
 map < string, int > labels;     //any label in source code and its address
-
+void init_op_code();
+void init_function();
+void init_registers();
 void read_data(ifstream& input);								 //reading data from input file --> filling instructions array
 void tokenize(string& s, string tokens[], string delimiters);	 //extract tokens from string (the tokens splitted each by the delimiters passed)
 bool is_delimiter(char c, string delimiters);					 //check passed charcter is a delimiter or not
 string with_no_first_spaces(string& s);							//removing any spaces in the begining of the string
 
 int main() {
+
+	init_op_code();
+	init_function();
+	init_registers();
+
 	ifstream code;
+
 	read_data(code);
 	return 0;
 }
@@ -72,4 +84,70 @@ string with_no_first_spaces(string& s) {
 	int i = 0;
 	while (s[i++] == ' ');
 	return s.substr(i - 1);
+}
+
+void init_op_code()
+{
+	op_code["add"] = "000000";
+	op_code["sll"] = "000000";
+	op_code["and"] = "000000";
+	op_code["or"] = "000000";
+	op_code["nor"] = "000000";
+	op_code["slt"] = "000000";
+	op_code["jr"] = "000000";
+	op_code["addi"] = "001000";
+	op_code["lw"] = "100011";
+	op_code["sw"] = "101011";
+	op_code["andi"] = "001100";
+	op_code["ori"] = "001101";
+	op_code["beq"] = "000100";
+	op_code["jal"] = "000011";
+
+}
+
+void init_function()
+{
+	function["add"] = "100000";
+	function["sll"] = "000000";
+	function["and"] = "100100";
+	function["or"] = "100101";
+	function["nor"] = "100111";
+	function["slt"] = "101010";
+	function["jr"] = "001000";
+}
+
+void init_registers()
+{
+	registers["$zero"] = "00000";
+	registers["$at"] = "00001";
+	registers["$v0"] = "00010";
+	registers["$v1"] = "00011";
+	registers["$a0"] = "00100";
+	registers["$a1"] = "00101";
+	registers["$a2"] = "00110";
+	registers["$a3"] = "00111";
+	registers["$t0"] = "01000";
+	registers["$t1"] = "01001";
+	registers["$t2"] = "01010";
+	registers["$t3"] = "01011";
+	registers["$t4"] = "01100";
+	registers["$t5"] = "01101";
+	registers["$t6"] = "01110";
+	registers["$t7"] = "01111";
+	registers["$s0"] = "10000";
+	registers["$s1"] = "10001";
+	registers["$s2"] = "10010";
+	registers["$s3"] = "10011";
+	registers["$s4"] = "10100";
+	registers["$s5"] = "10101";
+	registers["$s6"] = "10110";
+	registers["$s7"] = "10111";
+	registers["$t8"] = "11000";
+	registers["$t9"] = "11001";
+	registers["$k0"] = "11010";
+	registers["$k1"] = "11011";
+	registers["$gp"] = "11100";
+	registers["$sp"] = "11101";
+	registers["$fp"] = "11110";
+	registers["$ra"] = "11111";
 }
