@@ -1,0 +1,12 @@
+add $s2, $0, $0
+addi $s3, $0, 10 
+add $s4, $0, $0 
+Loop:
+sll $t1, $s2, 2 
+add $t1, $t1, $s4
+sw $s2, 0 ($t1) 
+slt $t0, $s3, $s2 
+addi $s2, $s2, 1 
+beq $t0, $0, Loop 
+Exit:
+add $s1, $0, $0
