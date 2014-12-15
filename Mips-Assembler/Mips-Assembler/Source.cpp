@@ -10,17 +10,18 @@ map <string, string> function;
 map <string, string> registers;
 
 string instructions[1000];		//array of instructions
-int i;							//number of instructions
+int i;					//number of instructions
 
-map < string, int > labels;     //any label in source code and its address
+map < string, int > labels;     	//any label in source code and its address
 
 void init_op_code();
 void init_function();
 void init_registers();
-void read_data(ifstream& input);								 //reading data from input file --> filling instructions array
+void read_data(ifstream& input);				 //reading data from input file --> filling instructions array
 void tokenize(string& s, string tokens[], string delimiters);	 //extract tokens from string (the tokens splitted each by the delimiters passed)
-bool is_delimiter(char c, string delimiters);					 //check passed charcter is a delimiter or not
-string with_no_first_spaces(string& s);							//removing any spaces in the begining of the string
+bool is_delimiter(char c, string delimiters);			 //check passed charcter is a delimiter or not
+string with_no_first_spaces(string& s);				 //removing any spaces in the begining of the string
+void remove_comment(string& s);					 //removing comment from a line if found
 
 int main() {
 
@@ -61,8 +62,8 @@ int main() {
 			}
 		}
 	}
-	myfile.close();
 
+	myfile.close();
 
 	return 0;
 }
@@ -79,17 +80,9 @@ void read_data(ifstream& input) {
 	}
 
 	while (getline(input, s)) {
-<<<<<<< HEAD
-		s = with_no_first_spaces(s);
-		tokenize(s, tokens, " ,");					//toknize each line
 
-		if (tokens[0].find(':') != string::npos)
-			labels[tokens[0]] = (i + 1) * 4;
-
-		else if (s[0] != 0)
-			instructions[i++] = s;
-=======
 		if (s[0] != 0) {
+			remove_comment(s);
 			s = with_no_first_spaces(s);
 			tokenize(s, tokens, " ,");					//toknize each line
 
@@ -103,7 +96,7 @@ void read_data(ifstream& input) {
 			else
 				instructions[i++] = s;
 		}
->>>>>>> 6437a72a3c6571e93b4a05e71a0c4abce800a034
+
 	}
 	input.close();									//close the file
 }
@@ -137,22 +130,27 @@ string with_no_first_spaces(string& s) {
 	return s.substr(i - 1);
 }
 
+void remove_comment(string& s) {
+	if (s.find('#') != string::npos)
+		s = s.substr(0, s.find('#'));
+}
+
 void init_op_code()
 {
-	op_code["add"] = "000000";
-	op_code["sll"] = "000000";
-	op_code["and"] = "000000";
-	op_code["or"] = "000000";
-	op_code["nor"] = "000000";
-	op_code["slt"] = "000000";
-	op_code["jr"] = "000000";
+	op_code["add"]  = "000000";
+	op_code["sll"]  = "000000";
+	op_code["and"]  = "000000";
+	op_code["or"]   = "000000";
+	op_code["nor"]  = "000000";
+	op_code["slt"]  = "000000";
+	op_code["jr"]   = "000000";
 	op_code["addi"] = "001000";
-	op_code["lw"] = "100011";
-	op_code["sw"] = "101011";
+	op_code["lw"]   = "100011";
+	op_code["sw"]   = "101011";
 	op_code["andi"] = "001100";
-	op_code["ori"] = "001101";
-	op_code["beq"] = "000100";
-	op_code["jal"] = "000011";
+	op_code["ori"]  = "001101";
+	op_code["beq"]  = "000100";
+	op_code["jal"]  = "000011";
 
 }
 
@@ -161,15 +159,15 @@ void init_function()
 	function["add"] = "100000";
 	function["sll"] = "000000";
 	function["and"] = "100100";
-	function["or"] = "100101";
+	function["or"]  = "100101";
 	function["nor"] = "100111";
 	function["slt"] = "101010";
-	function["jr"] = "001000";
+	function["jr"]  = "001000";
 }
 
 void init_registers()
 {
-	registers["$0"] = "00000";
+	registers["$0"]  = "00000";
 	registers["$at"] = "00001";
 	registers["$v0"] = "00010";
 	registers["$v1"] = "00011";
