@@ -58,6 +58,6 @@ module MIPS;
 
 	always
 	begin
-		#450 clk=~clk;
+		#410 clk=~clk;
 	end
 endmodule
