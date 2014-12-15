@@ -28,8 +28,41 @@ int main() {
 	init_registers();
 
 	ifstream code;
+	ofstream myfile;
+	myfile.open("example.txt");
 
 	read_data(code);
+	for (int j = 0; j < i; j++)
+	{
+		string st[4];
+		tokenize(instructions[j], st, " ,");
+		for (int k = 0; k < 4; k++)
+		{
+			if (k == 0)
+			{
+				myfile << op_code[st[k]] << endl;
+			}
+			else if (k == 1)
+			{
+				myfile << registers[st[k]] << endl;
+			}
+			else if (k == 2 && st[k].substr(0, 1) == "$")
+			{
+				myfile << registers[st[k]] << endl;
+			}
+			else if (k == 3 && st[k].substr(0, 1) == "$")
+			{
+				myfile << registers[st[k]] << endl;
+			}
+			else
+			{
+				myfile << st[k] << endl;
+			}
+		}
+	}
+	myfile.close();
+
+
 	return 0;
 }
 
@@ -48,7 +81,7 @@ void read_data(ifstream& input) {
 		s = with_no_first_spaces(s);
 		tokenize(s, tokens, " ,");					//toknize each line
 
-		if (tokens[0].find(':') != string::npos) 
+		if (tokens[0].find(':') != string::npos)
 			labels[tokens[0]] = (i + 1) * 4;
 
 		else if (s[0] != 0)
@@ -70,7 +103,7 @@ void tokenize(string& s, string tokens[], string delimiters) {
 		else
 			token += s[i];
 	}
-	if (!is_delimiter(s[s.length()-1], " ,"))
+	if (!is_delimiter(s[s.length() - 1], " ,"))
 		tokens[n_tokens] = token;
 }
 
@@ -118,7 +151,7 @@ void init_function()
 
 void init_registers()
 {
-	registers["$zero"] = "00000";
+	registers["$0"] = "00000";
 	registers["$at"] = "00001";
 	registers["$v0"] = "00010";
 	registers["$v1"] = "00011";
