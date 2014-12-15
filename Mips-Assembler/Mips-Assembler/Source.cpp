@@ -13,11 +13,7 @@ string instructions[1000];		//array of instructions
 int i;							//number of instructions
 
 map < string, int > labels;     //any label in source code and its address
-map <string, string> op_code;
-map <string, string> function;
-map <string, string> registers;
 
-=======
 void init_op_code();
 void init_function();
 void init_registers();
