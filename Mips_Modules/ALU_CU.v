@@ -42,10 +42,20 @@ always @ (ALUOp or func) begin
 				JumpReg     <= 0;
 				ALU_control <= 4'b0010; //add
 			end
+
+			else if (func == 'h22) begin   //sub
+				JumpReg     <= 0;
+				ALU_control <= 4'b0110; //sub
+			end
+
+			else if (func == 'h18) begin   //mult
+				JumpReg     <= 0;
+				ALU_control <= 4'b1001; //mul
+			end
 		
 			else if (func == 'h00) begin   //sll
 				JumpReg     <= 0;
-				ALU_control <= 4'b1111; //TO-DO
+				ALU_control <= 4'b1111; //sll
 			end
 
 			else if (func == 'h24) begin   //and
