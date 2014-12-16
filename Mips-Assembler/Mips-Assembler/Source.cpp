@@ -163,7 +163,7 @@ string decode(string& s , int j) {
 	string machine_line = "";
 	tokenize(s, st, " ,()");
 
-	if (st[0] == "add" || st[0] == "sll" || st[0] == "and" || st[0] == "or" || st[0] == "nor" || st[0] == "slt" ||
+	if (st[0] == "add" ||  st[0] == "and" || st[0] == "or" || st[0] == "nor" || st[0] == "slt" ||
 		st[0] == "mult" || st[0] == "sub")
 	{
 		machine_line = op_code[st[0]] + registers[st[2]] + registers[st[3]] + registers[st[1]] + "00000" + function[st[0]];
@@ -190,9 +190,13 @@ string decode(string& s , int j) {
 	{
 		machine_line = op_code[st[0]] + registers[st[1]] +"000000000000000" + function[st[0]];
 	}
+	else if (st[0] == "sll" )
+	{
+		machine_line = op_code[st[0]] + "00000" + registers[st[2]] + registers[st[1]] + intstr_to_binstr(st[3], 5) + function[st[0]];
+	}
 	else
 	{
-		throw "unsupported MIPS Instruction";
+		throw exception("unsupported MIPS Instruction");
 	}
 
 		return machine_line;

@@ -1,7 +1,8 @@
-﻿Build started 2014-12-16 8:06:17 PM.
+﻿Build started 2014-12-16 8:28:21 PM.
      1>Project "C:\Users\Amr\Documents\GitHub\Verilog-Mips\Mips-Assembler\Mips-Assembler\Mips-Assembler.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Source.cpp
+     1>cl : Command line warning D9028: minimal rebuild failure, reverting to normal build
          Source.cpp
      1>c:\users\amr\documents\github\verilog-mips\mips-assembler\mips-assembler\source.cpp(116): warning C4018: '<' : signed/unsigned mismatch
        Link:
@@ -11,4 +12,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:06.34
+Time Elapsed 00:00:04.80
