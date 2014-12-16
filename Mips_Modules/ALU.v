@@ -19,6 +19,7 @@ case(ALU_control)
 4'b0111 : ALU_out <= ALU_reg_1 < ALU_reg_2 ? 1 : 0; //SLT
 4'b1100 : ALU_out <= ~(ALU_reg_1 | ALU_reg_2) ;     //NOR
 4'b1111 : ALU_out <=  ALU_reg_2 << shamt;
+4'b1001 : ALU_out <= ALU_reg_1 * ALU_reg_2;         //multiply
 default : ALU_out <= 0;
 endcase
 end
