@@ -46,7 +46,7 @@ int main() {
 
 	try {
 			read_data(code);		
-		}
+	}
 	catch (exception& e) {
 		output << e.what() << endl;
 		return 0;
@@ -55,11 +55,12 @@ int main() {
 	//writing the machine code into file
 	for (int j = 0; j < i; j++) {
 		try {
+			string ss = binstr_to_hexstr(decode(instructions[j], j));
 			if (no_errors)
-				output << binstr_to_hexstr(decode(instructions[j] , j)) << endl;
+				output << ss << endl;
 		}
 		catch (exception& e) {
-			debug << line_num[j] << ": " << e.what() << endl;
+			debug << "LINE " << line_num[j] << " : " << e.what() << endl;
 			if (no_errors)
 				output << "Assembling Process failed, Please take a look at debug file." << endl;
 			no_errors = false;
@@ -85,10 +86,10 @@ void read_data(ifstream& input) {
 
 	while (getline(input, s)) {
 		j++;
+		remove_comment(s);
 		if (s[0] != 0) {
-			remove_comment(s);
 			s = with_no_first_spaces(s);
-			tokenize(s, tokens, " ,");					//toknize each line
+			tokenize(s, tokens, " ,()\t");					//toknize each line
 
 			if (tokens[0].find(':') != string::npos) {
 				labels[tokens[0].substr(0, tokens[0].length() - 1)] = i * 4;
@@ -117,13 +118,13 @@ void tokenize(string& s, string tokens[], string delimiters) {
 		if (is_delimiter(s[i], delimiters)) {
 			tokens[n_tokens++] = token;
 			token = "";
-			while (is_delimiter(s[i + 1], " ,"))
+			while (is_delimiter(s[i + 1], delimiters))
 				i++;
 		}
 		else
 			token += s[i];
 	}
-	if (!is_delimiter(s[s.length() - 1], " ,"))
+	if (!is_delimiter(s[s.length() - 1], delimiters))
 		tokens[n_tokens] = token;
 }
 
@@ -135,8 +136,9 @@ bool is_delimiter(char c, string delimiters) {
 
 string with_no_first_spaces(string& s) {
 	int i = 0;
-	while (s[i++] == ' ');
-	return s.substr(i - 1);
+	while (s[i] == ' ' || s[i] == '\t')
+		i++;
+	return s.substr(i);
 }
 
 void remove_comment(string& s) {
@@ -154,14 +156,18 @@ string binstr_to_hexstr(string& s) {
 	bitset <32> t(s);
 	stringstream ss;
 	ss << hex << uppercase << (int) t.to_ulong();
-	return ss.str();
+	string x = ss.str();
+	int l = x.length();
+	for (int j = 0; j < 8 - l; j++)
+		x = "0" + x;
+	return x;
 }
 
 string decode(string& s , int j) {
 	//TO-DO
 	string st[4];
 	string machine_line = "";
-	tokenize(s, st, " ,()");
+	tokenize(s, st, " ,()\t");
 
 	if (st[0] == "add" ||  st[0] == "and" || st[0] == "or" || st[0] == "nor" || st[0] == "slt" ||
 		st[0] == "mult" || st[0] == "sub")
@@ -174,8 +180,8 @@ string decode(string& s , int j) {
 	}
 	else if (st[0] == "beq")
 	{
-		string x = to_string(labels[st[3]] - 4*j);
-		machine_line = op_code[st[0]] + registers[st[2]] + registers[st[1]] + intstr_to_binstr(x , 16);
+		string x = to_string((labels[st[3]] - 4*(j + 1)) / 4);
+		machine_line = op_code[st[0]] + registers[st[1]] + registers[st[2]] + intstr_to_binstr(x , 16);
 	}
 	else if (st[0] == "sw" || st[0] == "lw")
 	{
