@@ -1,20 +1,21 @@
 	addi	$a0, $0, 8
 	addi	$a1, $0, 2
-	jal	div
+	addi 	$s1, $a1, -1
+	jal	rem
 	beq 	$0, $0, EXIT
 
-div:
+rem:
 	add	$t7, $zero $zero	# i = 0
 		
-div_test:
-	slt	$t6, $a1, $a0		# if ( a < b )
-	beq	$t6, $0, div_end	# then get out of here
+rem_test:
+	slt	$t6, $s1, $a0		# if ( a < b )
+	beq	$t6, $0, rem_end	# then get out of here
 	sub	$a0, $a0, $a1		# else, a = a - b
-	addi	$t7, $t7, 1		# and   i = i + 1
-	beq	$0, $0, div_test	# let's test again
+	addi	$t7 , $t7, 1
+	beq	$0, $0, rem_test	# let's test again
 
-div_end:
-	add	$t0, $zero, $t7		# result = i
+rem_end:
+	add	$t1, $zero, $t7		# rem   = i
 	jr	$ra
 
 EXIT:			
