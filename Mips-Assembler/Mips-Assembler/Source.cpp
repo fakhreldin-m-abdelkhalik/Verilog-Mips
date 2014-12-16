@@ -28,8 +28,8 @@ string with_no_first_spaces(string& s);				 //removing any spaces in the beginin
 void remove_comment(string& s);					 //removing comment from a line if found
 string intstr_to_binstr(string& n, int length);			 //return a string in a binary representation of integer n, its length equal to the parameter length passed
 string binstr_to_hexstr(string& s);				 //converts from binary string to hexadecimal string (32 bit)
-string decode(string& s, int j);					 //decoding passed instruction
-bool is_int_value(string& s);					//check if string s contains digits only
+string decode(string& s, int j);				 //decoding passed instruction
+bool is_int_value(string& s);					 //check if string s contains digits only
 
 
 int main() {
@@ -46,7 +46,7 @@ int main() {
 	debug.open("Debug file.txt");
 
 	try {
-			read_data(code);		
+		read_data(code);		
 	}
 	catch (exception& e) {
 		output << e.what() << endl;
@@ -178,8 +178,8 @@ string binstr_to_hexstr(string& s) {
 }
 
 bool is_int_value(string& s) {
-	for (int i = 0; i < s.length(); i++) {
-		if (!isdigit(s[i]))
+	for (int k = 0; k < s.length(); k++) {
+		if (!isdigit(s[k]))
 			return false;
 	}
 	return true;
