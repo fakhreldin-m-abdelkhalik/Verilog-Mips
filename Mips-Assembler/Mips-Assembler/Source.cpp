@@ -2,6 +2,8 @@
 #include <fstream>
 #include <string>
 #include <map>
+#include <bitset>
+#include <sstream>
 
 using namespace std;
 
@@ -22,6 +24,9 @@ void tokenize(string& s, string tokens[], string delimiters);	 //extract tokens 
 bool is_delimiter(char c, string delimiters);			 //check passed charcter is a delimiter or not
 string with_no_first_spaces(string& s);				 //removing any spaces in the begining of the string
 void remove_comment(string& s);					 //removing comment from a line if found
+string int_to_bin(int& n, int length);				 //return a string in a binary representation of integer n, its length equal to the parameter length passed
+string binstr_to_hexstr(string& s);				 //converts from binary string to hexadecimal string (32 bit)
+
 
 int main() {
 
@@ -133,6 +138,18 @@ string with_no_first_spaces(string& s) {
 void remove_comment(string& s) {
 	if (s.find('#') != string::npos)
 		s = s.substr(0, s.find('#'));
+}
+
+string int_to_bin(int& n, int length) {
+	bitset <32> t(n);
+	return t.to_string().substr(32 - length);
+}
+
+string binstr_to_hexstr(string& s) {
+	bitset <32> t(s);
+	stringstream ss;
+	ss << hex << uppercase << (int) t.to_ulong();
+	return ss.str();
 }
 
 void init_op_code()
