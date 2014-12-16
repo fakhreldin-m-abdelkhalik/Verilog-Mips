@@ -52,9 +52,6 @@ int main() {
 		return 0;
 	}
 
-	for (int j = 0; j < i; j++)
-		cout << j << " " << line_num[j] << endl;
-
 	//writing the machine code into file
 	for (int j = 0; j < i; j++) {
 		try {
