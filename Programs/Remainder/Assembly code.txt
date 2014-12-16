@@ -1,5 +1,6 @@
 	addi	$a0, $0, 8
 	addi	$a1, $0, 2
+	addi 	$s1, $a1, -1
 	jal	rem
 	beq 	$0, $0, EXIT
 
@@ -7,10 +8,9 @@ rem:
 	add	$t7, $zero $zero	# i = 0
 		
 rem_test:
-	slt	$t6, $a1, $a0		# if ( a < b )
+	slt	$t6, $s1, $a0		# if ( a < b )
 	beq	$t6, $0, rem_end	# then get out of here
 	sub	$a0, $a0, $a1		# else, a = a - b
-	addi	$t7, $t7, 1		# and   i = i + 1
 	beq	$0, $0, rem_test	# let's test again
 
 rem_end:
