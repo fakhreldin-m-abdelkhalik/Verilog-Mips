@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdlib.h>
 #include <fstream>
 #include <string>
 #include <map>
@@ -7,13 +8,14 @@
 
 using namespace std;
 
+string instructions[1000];		//array of instructions
+int line_num[1000];
+int i;					//number of instructions
+bool no_errors = true;
+
 map <string, string> op_code;
 map <string, string> function;
 map <string, string> registers;
-
-string instructions[1000];		//array of instructions
-int i;					//number of instructions
-
 map < string, int > labels;     	//any label in source code and its address
 
 void init_op_code();
@@ -24,8 +26,9 @@ void tokenize(string& s, string tokens[], string delimiters);	 //extract tokens 
 bool is_delimiter(char c, string delimiters);			 //check passed charcter is a delimiter or not
 string with_no_first_spaces(string& s);				 //removing any spaces in the begining of the string
 void remove_comment(string& s);					 //removing comment from a line if found
-string int_to_bin(int& n, int length);				 //return a string in a binary representation of integer n, its length equal to the parameter length passed
+string intstr_to_binstr(string& n, int length);			 //return a string in a binary representation of integer n, its length equal to the parameter length passed
 string binstr_to_hexstr(string& s);				 //converts from binary string to hexadecimal string (32 bit)
+string decode(string& s);					 //decoding passed instruction
 
 
 int main() {
@@ -35,40 +38,39 @@ int main() {
 	init_registers();
 
 	ifstream code;
-	ofstream myfile;
-	myfile.open("example.txt");
+	ofstream output;
+	ofstream debug;
 
-	read_data(code);
+	output.open("Machine code.txt");
+	debug.open("Debug file.txt");
+
+	try {
+		read_data(code);
+	}
+	catch (exception& e) {
+		output << e.what() << endl;
+		return 0;
+	}
+
 	for (int j = 0; j < i; j++)
-	{
-		string st[4];
-		tokenize(instructions[j], st, " ,");
-		for (int k = 0; k < 4; k++)
-		{
-			if (k == 0)
-			{
-				myfile << op_code[st[k]] << endl;
-			}
-			else if (k == 1)
-			{
-				myfile << registers[st[k]] << endl;
-			}
-			else if (k == 2 && st[k].substr(0, 1) == "$")
-			{
-				myfile << registers[st[k]] << endl;
-			}
-			else if (k == 3 && st[k].substr(0, 1) == "$")
-			{
-				myfile << registers[st[k]] << endl;
-			}
-			else
-			{
-				myfile << st[k] << endl;
-			}
+		cout << j << " " << line_num[j] << endl;
+
+	//writing the machine code into file
+	for (int j = 0; j < i; j++) {
+		try {
+			if (no_errors)
+				output << binstr_to_hexstr(decode(instructions[j])) << endl;
+		}
+		catch (exception& e) {
+			debug << line_num[j] << ": " << e.what() << endl;
+			if (no_errors)
+				output << "Assembling Process failed, Please take a look at debug file." << endl;
+			no_errors = false;
 		}
 	}
 
-	myfile.close();
+	output.close();
+	debug.close();
 
 	return 0;
 }
@@ -76,16 +78,16 @@ int main() {
 void read_data(ifstream& input) {
 	string s;
 	string tokens[5];
+	int j = 0;
 
 	input.open("Assembly code.txt");				//open the source of assembly code file
 
 	if (input.fail()) {
-		cout << "failed to open the file." << endl;
-		return;
+		throw exception("Failed to open input file.");
 	}
 
 	while (getline(input, s)) {
-
+		j++;
 		if (s[0] != 0) {
 			remove_comment(s);
 			s = with_no_first_spaces(s);
@@ -95,11 +97,16 @@ void read_data(ifstream& input) {
 				labels[tokens[0].substr(0, tokens[0].length() - 1)] = i * 4;
 				string ss = with_no_first_spaces(s.substr(tokens[0].length()));
 				string str = tokens[0] + ss;
-				if (str.length() != tokens[0].length())
+
+				if (str.length() != tokens[0].length()) {
+					line_num[i] = j;
 					instructions[i++] = ss;
+				}
 			}
-			else
+			else {
+				line_num[i] = j;
 				instructions[i++] = s;
+			}
 		}
 
 	}
@@ -140,8 +147,9 @@ void remove_comment(string& s) {
 		s = s.substr(0, s.find('#'));
 }
 
-string int_to_bin(int& n, int length) {
-	bitset <32> t(n);
+string intstr_to_binstr(string& n, int length) {
+	int num = atoi(n.c_str());
+	bitset <32> t(num);
 	return t.to_string().substr(32 - length);
 }
 
@@ -150,6 +158,10 @@ string binstr_to_hexstr(string& s) {
 	stringstream ss;
 	ss << hex << uppercase << (int) t.to_ulong();
 	return ss.str();
+}
+
+string decode(string& s) {
+	//TO-DO
 }
 
 void init_op_code()
