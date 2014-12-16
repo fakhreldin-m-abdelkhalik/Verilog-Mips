@@ -1,3 +1,4 @@
+`timescale 1ps/1ps
 module control_unit(
 op_code,
 RegDst,
@@ -40,6 +41,7 @@ reg RegWrite;
 
 always @ (op_code)
 begin
+	#100 //delay 100ps for Control Unit
 	if (op_code == 'h00) begin	  //R-type
 		RegDst      <= 1;
 		Jump        <= 0;
