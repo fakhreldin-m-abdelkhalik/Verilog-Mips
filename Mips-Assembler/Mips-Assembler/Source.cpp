@@ -75,10 +75,14 @@ int main() {
 
 void read_data(ifstream& input) {
 	string s;
+	string file_name;
 	string tokens[5];
 	int j = 0;
 
-	input.open("Assembly code.txt");				//open the source of assembly code file
+	cout << "Please enter file name: ";
+	cin >> file_name;
+
+	input.open(file_name);				//open the source of assembly code file
 
 	if (input.fail()) {
 		throw exception("Failed to open input file.");
