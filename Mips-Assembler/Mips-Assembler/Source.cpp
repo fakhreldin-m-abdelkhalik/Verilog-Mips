@@ -163,32 +163,36 @@ string decode(string& s) {
 
 void init_op_code()
 {
-	op_code["add"]  = "000000";
-	op_code["sll"]  = "000000";
-	op_code["and"]  = "000000";
-	op_code["or"]   = "000000";
-	op_code["nor"]  = "000000";
-	op_code["slt"]  = "000000";
-	op_code["jr"]   = "000000";
-	op_code["addi"] = "001000";
-	op_code["lw"]   = "100011";
-	op_code["sw"]   = "101011";
-	op_code["andi"] = "001100";
-	op_code["ori"]  = "001101";
-	op_code["beq"]  = "000100";
-	op_code["jal"]  = "000011";
+	op_code["add"]   = "000000";
+	op_code["sub"]   = "000000";
+	op_code["mult"]  = "000000";
+	op_code["sll"]   = "000000";
+	op_code["and"]   = "000000";
+	op_code["or"]    = "000000";
+	op_code["nor"]   = "000000";
+	op_code["slt"]   = "000000";
+	op_code["jr"]    = "000000";
+	op_code["addi"]  = "001000";
+	op_code["lw"]    = "100011";
+	op_code["sw"]    = "101011";
+	op_code["andi"]  = "001100";
+	op_code["ori"]   = "001101";
+	op_code["beq"]   = "000100";
+	op_code["jal"]   = "000011";
 
 }
 
 void init_function()
 {
-	function["add"] = "100000";
-	function["sll"] = "000000";
-	function["and"] = "100100";
-	function["or"]  = "100101";
-	function["nor"] = "100111";
-	function["slt"] = "101010";
-	function["jr"]  = "001000";
+	function["add"]  = "100000";
+	function["sub"]  = "100010";
+	function["mult"] = "011000";
+	function["sll"]  = "000000";
+	function["and"]  = "100100";
+	function["or"]   = "100101";
+	function["nor"]  = "100111";
+	function["slt"]  = "101010";
+	function["jr"]   = "001000";
 }
 
 void init_registers()
