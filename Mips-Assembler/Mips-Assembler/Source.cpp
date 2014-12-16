@@ -29,6 +29,7 @@ void remove_comment(string& s);					 //removing comment from a line if found
 string intstr_to_binstr(string& n, int length);			 //return a string in a binary representation of integer n, its length equal to the parameter length passed
 string binstr_to_hexstr(string& s);				 //converts from binary string to hexadecimal string (32 bit)
 string decode(string& s, int j);					 //decoding passed instruction
+bool is_int_value(string& s);					//check if string s contains digits only
 
 
 int main() {
@@ -151,7 +152,16 @@ void remove_comment(string& s) {
 }
 
 string intstr_to_binstr(string& n, int length) {
-	int num = atoi(n.c_str());
+	long long num;
+	if (n.length() > 1 && n.substr(0, 2) == "0x") {
+		stringstream ss;
+		ss << hex << n;
+		ss >> num;
+	}
+	else if (is_int_value(n))
+		num = atoi(n.c_str());
+	else
+		throw exception("Wrong format in immediate field.");
 	bitset <32> t(num);
 	return t.to_string().substr(32 - length);
 }
@@ -165,6 +175,14 @@ string binstr_to_hexstr(string& s) {
 	for (int j = 0; j < 8 - l; j++)
 		x = "0" + x;
 	return x;
+}
+
+bool is_int_value(string& s) {
+	for (int i = 0; i < s.length(); i++) {
+		if (!isdigit(s[i]))
+			return false;
+	}
+	return true;
 }
 
 string decode(string& s , int j) {
