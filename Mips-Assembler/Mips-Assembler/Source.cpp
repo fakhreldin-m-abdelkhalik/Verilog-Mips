@@ -28,7 +28,7 @@ string with_no_first_spaces(string& s);				 //removing any spaces in the beginin
 void remove_comment(string& s);					 //removing comment from a line if found
 string intstr_to_binstr(string& n, int length);			 //return a string in a binary representation of integer n, its length equal to the parameter length passed
 string binstr_to_hexstr(string& s);				 //converts from binary string to hexadecimal string (32 bit)
-string decode(string& s);					 //decoding passed instruction
+string decode(string& s, int j);					 //decoding passed instruction
 
 
 int main() {
@@ -45,8 +45,8 @@ int main() {
 	debug.open("Debug file.txt");
 
 	try {
-		read_data(code);
-	}
+			read_data(code);		
+		}
 	catch (exception& e) {
 		output << e.what() << endl;
 		return 0;
@@ -56,7 +56,7 @@ int main() {
 	for (int j = 0; j < i; j++) {
 		try {
 			if (no_errors)
-				output << binstr_to_hexstr(decode(instructions[j])) << endl;
+				output << binstr_to_hexstr(decode(instructions[j] , j)) << endl;
 		}
 		catch (exception& e) {
 			debug << line_num[j] << ": " << e.what() << endl;
@@ -157,8 +157,45 @@ string binstr_to_hexstr(string& s) {
 	return ss.str();
 }
 
-string decode(string& s) {
+string decode(string& s , int j) {
 	//TO-DO
+	string st[4];
+	string machine_line = "";
+	tokenize(s, st, " ,()");
+
+	if (st[0] == "add" || st[0] == "sll" || st[0] == "and" || st[0] == "or" || st[0] == "nor" || st[0] == "slt" ||
+		st[0] == "mult" || st[0] == "sub")
+	{
+		machine_line = op_code[st[0]] + registers[st[2]] + registers[st[3]] + registers[st[1]] + "00000" + function[st[0]];
+	}
+	else if (st[0] == "addi" || st[0] == "andi" || st[0] == "ori" )
+	{
+		machine_line = op_code[st[0]] + registers[st[2]] + registers[st[1]] + intstr_to_binstr(st[3], 16) ;
+	}
+	else if (st[0] == "beq")
+	{
+		string x = to_string(labels[st[3]] - 4*j);
+		machine_line = op_code[st[0]] + registers[st[2]] + registers[st[1]] + intstr_to_binstr(x , 16);
+	}
+	else if (st[0] == "sw" || st[0] == "lw")
+	{
+		machine_line = op_code[st[0]] + registers[st[3]] + registers[st[1]] + intstr_to_binstr(st[2], 16);
+	}
+	else if (st[0] == "jal")
+	{
+		string x = to_string(labels[st[1]] /4);
+		machine_line = op_code[st[0]] + intstr_to_binstr(x, 26);
+	}
+	else if (st[0] == "jr")
+	{
+		machine_line = op_code[st[0]] + registers[st[1]] +"000000000000000" + function[st[0]];
+	}
+	else
+	{
+		throw "unsupported MIPS Instruction";
+	}
+
+		return machine_line;
 }
 
 void init_op_code()
