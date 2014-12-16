@@ -87,8 +87,8 @@ void read_data(ifstream& input) {
 	while (getline(input, s)) {
 		j++;
 		remove_comment(s);
+		s = with_no_first_spaces(s);
 		if (s[0] != 0) {
-			s = with_no_first_spaces(s);
 			tokenize(s, tokens, " ,()\t");					//toknize each line
 
 			if (tokens[0].find(':') != string::npos) {
