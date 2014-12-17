@@ -1,0 +1,7 @@
+	addi 	$s0, $0, -3
+	slt	$t0, $s0, $0
+	beq	$t0, $0 , EXIT
+	sub	$s0, $0, $s0
+
+EXIT:
+	
