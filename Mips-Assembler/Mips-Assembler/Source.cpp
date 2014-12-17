@@ -178,7 +178,10 @@ string binstr_to_hexstr(string& s) {
 }
 
 bool is_int_value(string& s) {
-	for (int k = 0; k < s.length(); k++) {
+	int k = 0;
+	if (s[0] == '-')
+		k++;
+	for (; k < s.length(); k++) {
 		if (!isdigit(s[k]))
 			return false;
 	}
