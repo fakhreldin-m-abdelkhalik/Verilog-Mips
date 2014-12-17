@@ -1,0 +1,14 @@
+	add 	$s2, $0, $0		# i = 0
+	addi 	$s3, $0, 10		# n = 10 
+	add 	$s4, $0, $0		# A[0] = 0
+
+Loop: 	sll 	$t1, $s2, 2		# j = 4 * i
+	add 	$t1, $t1, $s4		# A[0] + j
+	lw 	$s1, 0 ($t1)		# A[j]
+	mult 	$s1, $s1, $s1		# A[j] *= A[j]
+	sw 	$s1, 0 ($t1)		
+	slt 	$t0, $s3, $s2		# if i < n
+	addi 	$s2, $s2, 1		# i += 1
+	beq 	$t0, $0, Loop		# jump loop
+
+Exit:					# Exit the program
