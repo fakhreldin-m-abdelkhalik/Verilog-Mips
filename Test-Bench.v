@@ -1,5 +1,5 @@
 `timescale 1ps/1ps
-module Test-Bench;
+module Test_Bench;
 
 integer i;
 reg [23:0] Registers[0:31];
