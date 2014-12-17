@@ -28,7 +28,8 @@ string with_no_first_spaces(string& s);				 //removing any spaces in the beginin
 void remove_comment(string& s);					 //removing comment from a line if found
 string intstr_to_binstr(string& n, int length);			 //return a string in a binary representation of integer n, its length equal to the parameter length passed
 string binstr_to_hexstr(string& s);				 //converts from binary string to hexadecimal string (32 bit)
-string decode(string& s, int j);					 //decoding passed instruction
+string decode(string& s, int j);				 //decoding passed instruction
+bool is_int_value(string& s);					 //check if string s contains digits only
 
 
 int main() {
@@ -45,7 +46,7 @@ int main() {
 	debug.open("Debug file.txt");
 
 	try {
-			read_data(code);		
+		read_data(code);		
 	}
 	catch (exception& e) {
 		output << e.what() << endl;
@@ -151,7 +152,16 @@ void remove_comment(string& s) {
 }
 
 string intstr_to_binstr(string& n, int length) {
-	int num = atoi(n.c_str());
+	long long num;
+	if (n.length() > 1 && n.substr(0, 2) == "0x") {
+		stringstream ss;
+		ss << hex << n;
+		ss >> num;
+	}
+	else if (is_int_value(n))
+		num = atoi(n.c_str());
+	else
+		throw exception("Wrong format in immediate field.");
 	bitset <32> t(num);
 	return t.to_string().substr(32 - length);
 }
@@ -165,6 +175,14 @@ string binstr_to_hexstr(string& s) {
 	for (int j = 0; j < 8 - l; j++)
 		x = "0" + x;
 	return x;
+}
+
+bool is_int_value(string& s) {
+	for (int k = 0; k < s.length(); k++) {
+		if (!isdigit(s[k]))
+			return false;
+	}
+	return true;
 }
 
 string decode(string& s , int j) {
@@ -248,36 +266,37 @@ void init_function()
 
 void init_registers()
 {
-	registers["$0"]  = "00000";
-	registers["$at"] = "00001";
-	registers["$v0"] = "00010";
-	registers["$v1"] = "00011";
-	registers["$a0"] = "00100";
-	registers["$a1"] = "00101";
-	registers["$a2"] = "00110";
-	registers["$a3"] = "00111";
-	registers["$t0"] = "01000";
-	registers["$t1"] = "01001";
-	registers["$t2"] = "01010";
-	registers["$t3"] = "01011";
-	registers["$t4"] = "01100";
-	registers["$t5"] = "01101";
-	registers["$t6"] = "01110";
-	registers["$t7"] = "01111";
-	registers["$s0"] = "10000";
-	registers["$s1"] = "10001";
-	registers["$s2"] = "10010";
-	registers["$s3"] = "10011";
-	registers["$s4"] = "10100";
-	registers["$s5"] = "10101";
-	registers["$s6"] = "10110";
-	registers["$s7"] = "10111";
-	registers["$t8"] = "11000";
-	registers["$t9"] = "11001";
-	registers["$k0"] = "11010";
-	registers["$k1"] = "11011";
-	registers["$gp"] = "11100";
-	registers["$sp"] = "11101";
-	registers["$fp"] = "11110";
-	registers["$ra"] = "11111";
+	registers["$0"]    = "00000";
+	registers["$zero"] = "00000";
+	registers["$at"]   = "00001";
+	registers["$v0"]   = "00010";
+	registers["$v1"]   = "00011";
+	registers["$a0"]   = "00100";
+	registers["$a1"]   = "00101";
+	registers["$a2"]   = "00110";
+	registers["$a3"]   = "00111";
+	registers["$t0"]   = "01000";
+	registers["$t1"]   = "01001";
+	registers["$t2"]   = "01010";
+	registers["$t3"]   = "01011";
+	registers["$t4"]   = "01100";
+	registers["$t5"]   = "01101";
+	registers["$t6"]   = "01110";
+	registers["$t7"]   = "01111";
+	registers["$s0"]   = "10000";
+	registers["$s1"]   = "10001";
+	registers["$s2"]   = "10010";
+	registers["$s3"]   = "10011";
+	registers["$s4"]   = "10100";
+	registers["$s5"]   = "10101";
+	registers["$s6"]   = "10110";
+	registers["$s7"]   = "10111";
+	registers["$t8"]   = "11000";
+	registers["$t9"]   = "11001";
+	registers["$k0"]   = "11010";
+	registers["$k1"]   = "11011";
+	registers["$gp"]   = "11100";
+	registers["$sp"]   = "11101";
+	registers["$fp"]   = "11110";
+	registers["$ra"]   = "11111";
 }
