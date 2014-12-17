@@ -18,7 +18,7 @@ fib: 	addi 	$sp, $sp, -8		# room for $ra and one temporary
 	lw 	$a0, 0($sp) 		# retrieve n
 	sw 	$v0, 0($sp) 		# save result of fib(n - 1)
 	addi 	$a0, $a0, -2 		# n - 2
-	jal 	fib # fib(n - 2)
+	jal 	fib 			# fib(n - 2)
 	lw 	$v1, 0($sp) 		# retrieve fib(n - 1)
 	add 	$v0, $v0, $v1 		# fib(n - 1) + fib(n - 2)
 
