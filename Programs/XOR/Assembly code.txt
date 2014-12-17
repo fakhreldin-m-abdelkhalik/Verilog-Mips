@@ -1,0 +1,12 @@
+	addi	$s0, $0, 12
+	addi	$s1, $0, 5
+	jal	XOR
+	beq	$0, $0, EXIT
+
+XOR:	nor	$s2, $s0, $s0
+	nor	$s3, $s1, $s1
+	and	$s4, $s0, $s3
+	and	$s5, $s1, $s4
+	or	$s6, $s4, $s5
+
+EXIT:
