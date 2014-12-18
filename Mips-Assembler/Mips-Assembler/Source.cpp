@@ -8,8 +8,11 @@
 
 using namespace std;
 
+#define not_exist(map, key) map.count(key) == 0
+
 string instructions[1000];		//array of instructions
 int line_num[1000];
+string machine_lines[1000];
 int i;					//number of instructions
 bool no_errors = true;
 
@@ -58,14 +61,14 @@ int main() {
 	for (int j = 0; j < i; j++) {
 		try {
 			string ss = binstr_to_hexstr(decode(instructions[j], j));
-			if (no_errors)
-				output << ss << endl;
+			machine_lines[j] = ss;
 		}
 		catch (exception& e) {
-			debug << "LINE " << line_num[j] << " : " << e.what() << endl;
-			if (no_errors)
-				output << "Assembling Process failed, Please take a look at debug file." << endl;
+			debug << e.what() << endl;
 			no_errors = false;
+		}
+		catch (runtime_error& re) {
+			debug << re.what() << endl;
 		}
 	}
 
@@ -211,19 +214,77 @@ string decode(string& s , int j) {
 	if (st[0] == "add" ||  st[0] == "and" || st[0] == "or" || st[0] == "nor" || st[0] == "slt" ||
 		st[0] == "mult" || st[0] == "sub")
 	{
-		machine_line = op_code[st[0]] + registers[st[2]] + registers[st[3]] + registers[st[1]] + "00000" + function[st[0]];
+		string msg = "";
+
+		for (int k = 0; k < 3; k++) {
+			if (not_exist(registers, st[k + 1]))
+				msg += "LINE " + to_string(j + 1) +": no such \"" + st[k + 1] + "\" register in MIPS\n";
+		}
+
+		if (msg != "")
+			throw runtime_error(msg);
+
+		else
+			machine_line = op_code[st[0]] + registers[st[2]] + registers[st[3]] + registers[st[1]] + "00000" + function[st[0]];
 	}
 	else if (st[0] == "addi" || st[0] == "andi" || st[0] == "ori" )
 	{
+		string msg = "";
+
+		for (int k = 0; k < 2; k++) {
+			if (not_exist(registers, st[k + 1]))
+				msg += "LINE " + to_string(j + 1) + ": no such \"" + st[k + 1] + "\" register in MIPS\n";
+		}
+
+		if (st[3].length() > 1 && st[3].substr(0, 2) == "0x") {
+			if (!is_hex_value(st[3]))
+				msg += "LINE " + to_string(j + 1) + ": Wrong hexadecimal format in immediate field\n";
+		}
+
+		else if (!is_int_value(st[3]))
+			msg += "LINE " + to_string(j + 1) + ": Wrong decimal format in immediate field\n";
+
+		if (msg != "")
+			throw runtime_error(msg);
+
 		machine_line = op_code[st[0]] + registers[st[2]] + registers[st[1]] + intstr_to_binstr(st[3], 16) ;
 	}
 	else if (st[0] == "beq")
 	{
+		string msg;
+
+		for (int k = 0; k < 2; k++) {
+			if (not_exist(registers, st[k + 1]))
+				msg += "LINE " + to_string(j + 1) + ": no such \"" + st[k + 1] + "\" register in MIPS\n";
+		}
+
+		if (not_exist(labels, st[3]))
+			msg += "LINE " + to_string(j + 1) + ": there is no such \"" + st[3] + "\" label in assembly code\n";
+
+		if (msg != "")
+			throw runtime_error(msg);
+
 		string x = to_string((labels[st[3]] - 4*(j + 1)) / 4);
 		machine_line = op_code[st[0]] + registers[st[1]] + registers[st[2]] + intstr_to_binstr(x , 16);
 	}
 	else if (st[0] == "sw" || st[0] == "lw")
 	{
+		string msg = "";
+		for (int k = 0; k < 3; k += 2) {
+			if (not_exist(registers, st[k + 1]))
+				msg += "LINE " + to_string(j + 1) + ": no such \"" + st[k + 1] + "\" register in MIPS\n";
+		}
+
+		if (st[3].length() > 1 && st[3].substr(0, 2) == "0x") {
+			if (!is_hex_value(st[3]))
+				msg += "LINE " + to_string(j + 1) + ": Wrong hexadecimal format in immediate field\n";
+		}
+
+		else if (!is_int_value(st[3]))
+			msg += "LINE " + to_string(j + 1) + ": Wrong decimal format in immediate field\n";
+
+		if (msg != "")
+			throw runtime_error(msg);
 		machine_line = op_code[st[0]] + registers[st[3]] + registers[st[1]] + intstr_to_binstr(st[2], 16);
 	}
 	else if (st[0] == "jal")

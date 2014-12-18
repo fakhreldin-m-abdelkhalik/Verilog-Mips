@@ -1,1 +1,3 @@
-addi $s1, $s0, 0xabch
+add $s0, $s1, $s2
+addi $h0, $h1, lkjadlfkjj
+beq $s0, $g1, branch

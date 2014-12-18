@@ -1,1 +1,7 @@
-LINE 1 : Wrong format in hexadecimal value in immediate field
+LINE 2: no such "$h0" register in MIPS
+LINE 2: no such "$h1" register in MIPS
+LINE 2: Wrong decimal format in immediate field
+
+LINE 3: no such "$g1" register in MIPS
+LINE 3: the is no such "branch" label in assembly code
+
