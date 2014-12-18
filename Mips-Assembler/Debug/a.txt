@@ -2,6 +2,8 @@
 
 
 beq $j0, $j1, labeel
-label    :    
+/*label    :    
 	add $s1, $s2, $s3
-addi $j0, $s1, abc
+addi $j0, $s1, abc*/
+
+#add $s1, $s2, $b3

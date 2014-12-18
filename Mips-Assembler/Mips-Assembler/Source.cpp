@@ -106,6 +106,12 @@ void read_data(ifstream& input) {
 		remove_comment(s);
 		s = with_no_first_spaces(s);
 		if (s[0] != 0) {
+			if (s.find("\*") != string::npos) {
+				while (getline(input, s) && s.find("*/") == string::npos)
+					j++;
+				j++;
+				continue;
+			}
 			tokenize(s, tokens, " ,()\t");					//toknize each line
 
 			if (tokens[0].find(':') != string::npos) {
