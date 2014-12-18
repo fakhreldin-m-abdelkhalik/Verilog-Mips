@@ -104,7 +104,8 @@ void read_data(ifstream& input) {
 	int j = 0;
 
 	cout << "Please enter file name: ";
-	cin >> file_name;
+
+	getline(cin, file_name);
 
 	input.open(file_name);				//open the source of assembly code file
 
@@ -291,7 +292,7 @@ string decode(string& s , int j) {
 		}
 
 		if (not_exist(labels, st[3]))
-			msg += "LINE " + to_string(line_num[j]) + ": there is no such \"" + st[3] + "\" label in assembly code\n";
+			msg += "LINE " + to_string(line_num[j]) + ": no such \"" + st[3] + "\" label in assembly code\n";
 
 		if (msg != "")
 			throw runtime_error(msg);
@@ -322,7 +323,7 @@ string decode(string& s , int j) {
 	else if (st[0] == "jal")
 	{
 		if (not_exist(labels, st[1]))
-			throw runtime_error("LINE " + to_string(line_num[j]) + ": there is no such \"" + st[1] + "\" label in assembly code\n");
+			throw runtime_error("LINE " + to_string(line_num[j]) + ": no such \"" + st[1] + "\" label in assembly code\n");
 		string x = to_string(labels[st[1]] /4);
 		machine_line = op_code[st[0]] + intstr_to_binstr(x, 26);
 	}
@@ -356,7 +357,7 @@ string decode(string& s , int j) {
 	}
 	else
 	{
-		throw runtime_error("LINE " + to_string(line_num[j]) + ": unsupported MIPS Instruction");
+		throw runtime_error("LINE " + to_string(line_num[j]) + ": unsupported or invalid MIPS Instruction");
 	}
 
 		return machine_line;
