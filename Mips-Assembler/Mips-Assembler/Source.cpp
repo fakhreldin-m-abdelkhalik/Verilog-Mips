@@ -198,12 +198,12 @@ string intstr_to_binstr(string& n, int length) {
 			ss >> num;
 		}
 		else
-			throw exception("Wrong hexadecimal format in immediate field");
+			throw exception("wrong hexadecimal format in immediate field");
 	}
 	else if (is_int_value(n))
 		num = atoi(n.c_str());
 	else
-		throw exception("Wrong decimal format in immediate field.");
+		throw exception("wrong decimal format in immediate field.");
 	bitset <32> t(num);
 	return t.to_string().substr(32 - length);
 }
@@ -271,11 +271,11 @@ string decode(string& s , int j) {
 
 		if (st[3].length() > 1 && st[3].substr(0, 2) == "0x") {
 			if (!is_hex_value(st[3]))
-				msg += "LINE " + to_string(line_num[j]) + ": Wrong hexadecimal format in immediate field\n";
+				msg += "LINE " + to_string(line_num[j]) + ": wrong hexadecimal format in immediate field\n";
 		}
 
 		else if (!is_int_value(st[3]))
-			msg += "LINE " + to_string(line_num[j]) + ": Wrong decimal format in immediate field\n";
+			msg += "LINE " + to_string(line_num[j]) + ": wrong decimal format in immediate field\n";
 
 		if (msg != "")
 			throw runtime_error(msg);
@@ -310,11 +310,11 @@ string decode(string& s , int j) {
 
 		if (st[2].length() > 1 && st[2].substr(0, 2) == "0x") {
 			if (!is_hex_value(st[2]))
-				msg += "LINE " + to_string(line_num[j]) + ": Wrong hexadecimal format in immediate field\n";
+				msg += "LINE " + to_string(line_num[j]) + ": wrong hexadecimal format in immediate field\n";
 		}
 
 		else if (!is_int_value(st[2]))
-			msg += "LINE " + to_string(line_num[j]) + ": Wrong decimal format in immediate field\n";
+			msg += "LINE " + to_string(line_num[j]) + ": wrong decimal format in immediate field\n";
 
 		if (msg != "")
 			throw runtime_error(msg);
@@ -344,11 +344,11 @@ string decode(string& s , int j) {
 
 		if (st[3].length() > 1 && st[3].substr(0, 2) == "0x") {
 			if (!is_hex_value(st[3]))
-				msg += "LINE " + to_string(line_num[j]) + ": Wrong hexadecimal format in immediate field\n";
+				msg += "LINE " + to_string(line_num[j]) + ": wrong hexadecimal format in immediate field\n";
 		}
 
 		else if (!is_int_value(st[3]))
-			msg += "LINE " + to_string(line_num[j]) + ": Wrong decimal format in immediate field\n";
+			msg += "LINE " + to_string(line_num[j]) + ": wrong decimal format in immediate field\n";
 
 		if (msg != "")
 			throw runtime_error(msg);
@@ -357,7 +357,7 @@ string decode(string& s , int j) {
 	}
 	else
 	{
-		throw runtime_error("LINE " + to_string(line_num[j]) + ": unsupported or invalid MIPS Instruction");
+		throw runtime_error("LINE " + to_string(line_num[j]) + ": unsupported or invalid MIPS Instruction\n");
 	}
 
 		return machine_line;
