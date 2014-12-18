@@ -72,6 +72,14 @@ int main() {
 		}
 	}
 
+	if (no_errors) {
+		for (int j = 0; j < i; j++) {
+			output << machine_lines[j] << endl;
+		}
+	}
+	else
+		output << "Assembling process failed, please take a look at debug file.." << endl;
+
 	output.close();
 	debug.close();
 
@@ -106,6 +114,15 @@ void read_data(ifstream& input) {
 				string str = tokens[0] + ss;
 
 				if (str.length() != tokens[0].length()) {
+					line_num[i] = j;
+					instructions[i++] = ss;
+				}
+			}
+			else if (tokens[1][0] == ':') {
+				labels[tokens[0]] = i * 4;
+				string ss = with_no_first_spaces(s.substr(s.find(':') + 1));
+
+				if (ss != "") {
 					line_num[i] = j;
 					instructions[i++] = ss;
 				}
