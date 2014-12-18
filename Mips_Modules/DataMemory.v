@@ -6,6 +6,7 @@ module DataMemory(clock,MemoryRead,MemoryWrite,Address,InputData,OutputData);
 	input wire MemoryWrite;
 	input wire [31:0] Address;
 	input wire [31:0] InputData;
+
 	output wire [31:0] OutputData;
 
 	parameter DMSize = 1024 ;
