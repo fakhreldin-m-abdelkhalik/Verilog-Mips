@@ -94,7 +94,8 @@ void read_data(ifstream& input) {
 	int j = 0;
 
 	cout << "Please enter file name: ";
-	cin >> file_name;
+
+	getline(cin, file_name);
 
 	input.open(file_name);				//open the source of assembly code file
 

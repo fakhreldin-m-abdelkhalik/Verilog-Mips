@@ -1,18 +1,19 @@
-﻿Build started 12/18/2014 4:14:07 PM.
+﻿Build started 12/18/2014 10:10:29 PM.
      1>Project "D:\Youssef\Projects\Verilog-Mips\Mips-Assembler\Mips-Assembler\Mips-Assembler.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          D:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Source.cpp
          Source.cpp
      1>d:\youssef\projects\verilog-mips\mips-assembler\mips-assembler\source.cpp(70): warning C4286: 'std::runtime_error &' : is caught by base class ('std::exception &') on line 66
-     1>d:\youssef\projects\verilog-mips\mips-assembler\mips-assembler\source.cpp(110): warning C4129: '*' : unrecognized character escape sequence
-     1>d:\youssef\projects\verilog-mips\mips-assembler\mips-assembler\source.cpp(149): warning C4018: '<' : signed/unsigned mismatch
-     1>d:\youssef\projects\verilog-mips\mips-assembler\mips-assembler\source.cpp(215): warning C4018: '<' : signed/unsigned mismatch
-     1>d:\youssef\projects\verilog-mips\mips-assembler\mips-assembler\source.cpp(225): warning C4018: '<' : signed/unsigned mismatch
+     1>d:\youssef\projects\verilog-mips\mips-assembler\mips-assembler\source.cpp(111): warning C4129: '*' : unrecognized character escape sequence
+     1>d:\youssef\projects\verilog-mips\mips-assembler\mips-assembler\source.cpp(150): warning C4018: '<' : signed/unsigned mismatch
+     1>d:\youssef\projects\verilog-mips\mips-assembler\mips-assembler\source.cpp(216): warning C4018: '<' : signed/unsigned mismatch
+     1>d:\youssef\projects\verilog-mips\mips-assembler\mips-assembler\source.cpp(226): warning C4018: '<' : signed/unsigned mismatch
        Link:
          D:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Youssef\Projects\Verilog-Mips\Mips-Assembler\Debug\Mips-Assembler.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\Youssef\Projects\Verilog-Mips\Mips-Assembler\Debug\Mips-Assembler.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Youssef\Projects\Verilog-Mips\Mips-Assembler\Debug\Mips-Assembler.lib" /MACHINE:X86 Debug\Source.obj
+         LINK : D:\Youssef\Projects\Verilog-Mips\Mips-Assembler\Debug\Mips-Assembler.exe not found or not built by the last incremental link; performing full link
          Mips-Assembler.vcxproj -> D:\Youssef\Projects\Verilog-Mips\Mips-Assembler\Debug\Mips-Assembler.exe
      1>Done Building Project "D:\Youssef\Projects\Verilog-Mips\Mips-Assembler\Mips-Assembler\Mips-Assembler.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.98
+Time Elapsed 00:00:01.34
