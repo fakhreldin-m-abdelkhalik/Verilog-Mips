@@ -56,8 +56,12 @@ int main() {
 		output << e.what() << endl;
 		return 0;
 	}
+	catch (out_of_range& ex) {
+		debug << ex.what() << endl;
+		return 0;
+	}
 
-	//writing the machine code into file
+	//writing the machine code into machine_lines array
 	for (int j = 0; j < i; j++) {
 		try {
 			string ss = binstr_to_hexstr(decode(instructions[j], j));
@@ -71,11 +75,17 @@ int main() {
 			debug << re.what() << endl;
 			no_errors = false;
 		}
+		catch (out_of_range& ex) {
+			debug << ex.what() << endl;
+			no_errors = false;
+		}
 	}
 
+	//writing machine code into file
 	if (no_errors) {
 		for (int j = 0; j < i; j++) {
-			output << machine_lines[j] << endl;
+			for (int k = 0; k < 4; k++)
+				output << machine_lines[j].substr(k + k, 2) << endl;
 		}
 	}
 	else
@@ -188,12 +198,12 @@ string intstr_to_binstr(string& n, int length) {
 			ss >> num;
 		}
 		else
-			throw exception("Wrong hexadecimal format in immediate field");
+			throw exception("wrong hexadecimal format in immediate field");
 	}
 	else if (is_int_value(n))
 		num = atoi(n.c_str());
 	else
-		throw exception("Wrong decimal format in immediate field.");
+		throw exception("wrong decimal format in immediate field.");
 	bitset <32> t(num);
 	return t.to_string().substr(32 - length);
 }
@@ -261,11 +271,11 @@ string decode(string& s , int j) {
 
 		if (st[3].length() > 1 && st[3].substr(0, 2) == "0x") {
 			if (!is_hex_value(st[3]))
-				msg += "LINE " + to_string(line_num[j]) + ": Wrong hexadecimal format in immediate field\n";
+				msg += "LINE " + to_string(line_num[j]) + ": wrong hexadecimal format in immediate field\n";
 		}
 
 		else if (!is_int_value(st[3]))
-			msg += "LINE " + to_string(line_num[j]) + ": Wrong decimal format in immediate field\n";
+			msg += "LINE " + to_string(line_num[j]) + ": wrong decimal format in immediate field\n";
 
 		if (msg != "")
 			throw runtime_error(msg);
@@ -282,7 +292,7 @@ string decode(string& s , int j) {
 		}
 
 		if (not_exist(labels, st[3]))
-			msg += "LINE " + to_string(line_num[j]) + ": there is no such \"" + st[3] + "\" label in assembly code\n";
+			msg += "LINE " + to_string(line_num[j]) + ": no such \"" + st[3] + "\" label in assembly code\n";
 
 		if (msg != "")
 			throw runtime_error(msg);
@@ -300,11 +310,11 @@ string decode(string& s , int j) {
 
 		if (st[2].length() > 1 && st[2].substr(0, 2) == "0x") {
 			if (!is_hex_value(st[2]))
-				msg += "LINE " + to_string(line_num[j]) + ": Wrong hexadecimal format in immediate field\n";
+				msg += "LINE " + to_string(line_num[j]) + ": wrong hexadecimal format in immediate field\n";
 		}
 
 		else if (!is_int_value(st[2]))
-			msg += "LINE " + to_string(line_num[j]) + ": Wrong decimal format in immediate field\n";
+			msg += "LINE " + to_string(line_num[j]) + ": wrong decimal format in immediate field\n";
 
 		if (msg != "")
 			throw runtime_error(msg);
@@ -313,7 +323,7 @@ string decode(string& s , int j) {
 	else if (st[0] == "jal")
 	{
 		if (not_exist(labels, st[1]))
-			throw runtime_error("LINE " + to_string(line_num[j]) + ": there is no such \"" + st[1] + "\" label in assembly code\n");
+			throw runtime_error("LINE " + to_string(line_num[j]) + ": no such \"" + st[1] + "\" label in assembly code\n");
 		string x = to_string(labels[st[1]] /4);
 		machine_line = op_code[st[0]] + intstr_to_binstr(x, 26);
 	}
@@ -334,11 +344,11 @@ string decode(string& s , int j) {
 
 		if (st[3].length() > 1 && st[3].substr(0, 2) == "0x") {
 			if (!is_hex_value(st[3]))
-				msg += "LINE " + to_string(line_num[j]) + ": Wrong hexadecimal format in immediate field\n";
+				msg += "LINE " + to_string(line_num[j]) + ": wrong hexadecimal format in immediate field\n";
 		}
 
 		else if (!is_int_value(st[3]))
-			msg += "LINE " + to_string(line_num[j]) + ": Wrong decimal format in immediate field\n";
+			msg += "LINE " + to_string(line_num[j]) + ": wrong decimal format in immediate field\n";
 
 		if (msg != "")
 			throw runtime_error(msg);
@@ -347,7 +357,7 @@ string decode(string& s , int j) {
 	}
 	else
 	{
-		throw runtime_error("LINE " + to_string(line_num[j]) + ": unsupported MIPS Instruction\n");
+		throw runtime_error("LINE " + to_string(line_num[j]) + ": unsupported or invalid MIPS Instruction\n");
 	}
 
 		return machine_line;
