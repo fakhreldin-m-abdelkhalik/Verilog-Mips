@@ -18,8 +18,8 @@ initial begin
 	Registers[24] = "$t8"; Registers[25] = "$t9"; Registers[26] = "$k0"; Registers[27] = "$k1";
 	Registers[28] = "$gp"; Registers[29] = "$sp"; Registers[30] = "$fp"; Registers[31] = "$ra";
 	
-	$readmemb("Instructions.txt", cpu.IM.InstructionMemory);
-	$readmemb("Data.txt",cpu.DM.DataMemory);
+	$readmemh("Instructions.txt", cpu.IM.InstructionMemory);
+	$readmemh("Data.txt",cpu.DM.DataMemory);
 
 	#62320
 
