@@ -1,5 +1,5 @@
 `timescale 1ps/1ps
-module TB_Array_squared;
+module TB_NOT;
 
 integer i;
 reg [23:0] Registers[0:31];
@@ -18,17 +18,14 @@ initial begin
 	Registers[24] = "$t8"; Registers[25] = "$t9"; Registers[26] = "$k0"; Registers[27] = "$k1";
 	Registers[28] = "$gp"; Registers[29] = "$sp"; Registers[30] = "$fp"; Registers[31] = "$ra";
 	
-	$readmemh("C:/Users/Youssef/Desktop/MIPS/Verilog-Mips/Programs/Array-squared/Instructions.txt", cpu.IM.InstructionMemory);
-	$readmemb("C:/Users/Youssef/Desktop/MIPS/Verilog-Mips/Programs/Array-squared/Data.txt", cpu.DM.DataMemory);
-	#62320
+	$readmemh("Instructions.txt", cpu.IM.InstructionMemory);
+	#1640
 
 	$display("Final value of PC = %h", cpu.ProgCounter.OUT);
 	for (i = 0; i < 32; i = i + 1) begin
 		$display("%s = %h", Registers[i], cpu.RF.Registers[i]);
 	end
-	for (i = 0; i < 36; i = i + 4) begin
-		$display("DataMemory[%g] = %h", i/4, {cpu.DM.DataMemory[i], cpu.DM.DataMemory[i+1], cpu.DM.DataMemory[i+2], cpu.DM.DataMemory[i+3]});
-	end
+	
 	$stop;
 end
 endmodule
