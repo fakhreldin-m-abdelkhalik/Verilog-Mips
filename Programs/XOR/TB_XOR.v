@@ -1,5 +1,5 @@
 `timescale 1ps/1ps
-module TB_Factorial;
+module TB_XOR;
 
 integer i;
 reg [23:0] Registers[0:31];
@@ -19,8 +19,7 @@ initial begin
 	Registers[28] = "$gp"; Registers[29] = "$sp"; Registers[30] = "$fp"; Registers[31] = "$ra";
 	
 	$readmemh("Instructions.txt", cpu.IM.InstructionMemory);
-	
-	#62320
+	#7380
 
 	$display("Final value of PC = %h", cpu.ProgCounter.OUT);
 	for (i = 0; i < 32; i = i + 1) begin

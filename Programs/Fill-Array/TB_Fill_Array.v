@@ -18,9 +18,9 @@ initial begin
 	Registers[24] = "$t8"; Registers[25] = "$t9"; Registers[26] = "$k0"; Registers[27] = "$k1";
 	Registers[28] = "$gp"; Registers[29] = "$sp"; Registers[30] = "$fp"; Registers[31] = "$ra";
 	
-	$readmemb("Instructions.txt", cpu.IM.InstructionMemory);
+	$readmemh("Instructions.txt", cpu.IM.InstructionMemory);
 	
-	#62320
+	#61500
 
 	$display("Final value of PC = %h", cpu.ProgCounter.OUT);
 	for (i = 0; i < 32; i = i + 1) begin
