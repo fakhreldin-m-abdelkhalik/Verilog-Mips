@@ -1,0 +1,6 @@
+	
+	addi 		$s0, $0, 1
+	andi 		$s0, $s0, 65535
+	addi 		$s1, $0, 1
+	sll 		$s1, $s1, 16
+	or 		$s3, $s0, $s1

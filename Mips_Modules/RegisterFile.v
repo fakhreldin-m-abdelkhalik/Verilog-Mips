@@ -39,6 +39,7 @@ end
 initial
 begin
 	Registers[0]=0;
+	Registers[29]=1023;
 end
 
 endmodule

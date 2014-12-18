@@ -1,0 +1,9 @@
+LINE 1: unsupported MIPS Instruction
+LINE 3: no such "$a22" register in MIPS
+
+LINE 5: Wrong decimal format in immediate field
+
+LINE 7: Wrong decimal format in immediate field
+
+LINE 9: there is no such "label" label in assembly code
+
