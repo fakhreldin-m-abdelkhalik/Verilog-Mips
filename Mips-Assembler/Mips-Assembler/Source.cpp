@@ -297,12 +297,12 @@ string decode(string& s , int j) {
 				msg += "LINE " + to_string(line_num[j]) + ": no such \"" + st[k + 1] + "\" register in MIPS\n";
 		}
 
-		if (st[3].length() > 1 && st[3].substr(0, 2) == "0x") {
-			if (!is_hex_value(st[3]))
+		if (st[2].length() > 1 && st[2].substr(0, 2) == "0x") {
+			if (!is_hex_value(st[2]))
 				msg += "LINE " + to_string(line_num[j]) + ": Wrong hexadecimal format in immediate field\n";
 		}
 
-		else if (!is_int_value(st[3]))
+		else if (!is_int_value(st[2]))
 			msg += "LINE " + to_string(line_num[j]) + ": Wrong decimal format in immediate field\n";
 
 		if (msg != "")
