@@ -1,0 +1,7 @@
+LINE 4: no such "$j0" register in MIPS
+LINE 4: no such "$j1" register in MIPS
+LINE 4: there is no such "labeel" label in assembly code
+
+LINE 7: no such "$j0" register in MIPS
+LINE 7: Wrong decimal format in immediate field
+

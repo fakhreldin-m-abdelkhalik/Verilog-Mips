@@ -235,7 +235,7 @@ string decode(string& s , int j) {
 
 		for (int k = 0; k < 3; k++) {
 			if (not_exist(registers, st[k + 1]))
-				msg += "LINE " + to_string(j + 1) +": no such \"" + st[k + 1] + "\" register in MIPS\n";
+				msg += "LINE " + to_string(line_num[j]) +": no such \"" + st[k + 1] + "\" register in MIPS\n";
 		}
 
 		if (msg != "")
@@ -249,16 +249,16 @@ string decode(string& s , int j) {
 
 		for (int k = 0; k < 2; k++) {
 			if (not_exist(registers, st[k + 1]))
-				msg += "LINE " + to_string(j + 1) + ": no such \"" + st[k + 1] + "\" register in MIPS\n";
+				msg += "LINE " + to_string(line_num[j]) + ": no such \"" + st[k + 1] + "\" register in MIPS\n";
 		}
 
 		if (st[3].length() > 1 && st[3].substr(0, 2) == "0x") {
 			if (!is_hex_value(st[3]))
-				msg += "LINE " + to_string(j + 1) + ": Wrong hexadecimal format in immediate field\n";
+				msg += "LINE " + to_string(line_num[j]) + ": Wrong hexadecimal format in immediate field\n";
 		}
 
 		else if (!is_int_value(st[3]))
-			msg += "LINE " + to_string(j + 1) + ": Wrong decimal format in immediate field\n";
+			msg += "LINE " + to_string(line_num[j]) + ": Wrong decimal format in immediate field\n";
 
 		if (msg != "")
 			throw runtime_error(msg);
@@ -271,11 +271,11 @@ string decode(string& s , int j) {
 
 		for (int k = 0; k < 2; k++) {
 			if (not_exist(registers, st[k + 1]))
-				msg += "LINE " + to_string(j + 1) + ": no such \"" + st[k + 1] + "\" register in MIPS\n";
+				msg += "LINE " + to_string(line_num[j]) + ": no such \"" + st[k + 1] + "\" register in MIPS\n";
 		}
 
 		if (not_exist(labels, st[3]))
-			msg += "LINE " + to_string(j + 1) + ": there is no such \"" + st[3] + "\" label in assembly code\n";
+			msg += "LINE " + to_string(line_num[j]) + ": there is no such \"" + st[3] + "\" label in assembly code\n";
 
 		if (msg != "")
 			throw runtime_error(msg);
@@ -288,16 +288,16 @@ string decode(string& s , int j) {
 		string msg = "";
 		for (int k = 0; k < 3; k += 2) {
 			if (not_exist(registers, st[k + 1]))
-				msg += "LINE " + to_string(j + 1) + ": no such \"" + st[k + 1] + "\" register in MIPS\n";
+				msg += "LINE " + to_string(line_num[j]) + ": no such \"" + st[k + 1] + "\" register in MIPS\n";
 		}
 
 		if (st[3].length() > 1 && st[3].substr(0, 2) == "0x") {
 			if (!is_hex_value(st[3]))
-				msg += "LINE " + to_string(j + 1) + ": Wrong hexadecimal format in immediate field\n";
+				msg += "LINE " + to_string(line_num[j]) + ": Wrong hexadecimal format in immediate field\n";
 		}
 
 		else if (!is_int_value(st[3]))
-			msg += "LINE " + to_string(j + 1) + ": Wrong decimal format in immediate field\n";
+			msg += "LINE " + to_string(line_num[j]) + ": Wrong decimal format in immediate field\n";
 
 		if (msg != "")
 			throw runtime_error(msg);
@@ -306,14 +306,14 @@ string decode(string& s , int j) {
 	else if (st[0] == "jal")
 	{
 		if (not_exist(labels, st[1]))
-			throw runtime_error("LINE " + to_string(j + 1) + ": there is no such \"" + st[1] + "\" label in assembly code\n");
+			throw runtime_error("LINE " + to_string(line_num[j]) + ": there is no such \"" + st[1] + "\" label in assembly code\n");
 		string x = to_string(labels[st[1]] /4);
 		machine_line = op_code[st[0]] + intstr_to_binstr(x, 26);
 	}
 	else if (st[0] == "jr")
 	{
 		if (not_exist(registers, st[1]))
-			throw runtime_error("LINE " + to_string(j + 1) + ": no such \"" + st[1] + "\" register in MIPS\n");
+			throw runtime_error("LINE " + to_string(line_num[j]) + ": no such \"" + st[1] + "\" register in MIPS\n");
 		machine_line = op_code[st[0]] + registers[st[1]] +"000000000000000" + function[st[0]];
 	}
 	else if (st[0] == "sll" )
@@ -322,16 +322,16 @@ string decode(string& s , int j) {
 
 		for (int k = 0; k < 2; k++) {
 			if (not_exist(registers, st[k + 1]))
-				msg += "LINE " + to_string(j + 1) + ": no such \"" + st[k + 1] + "\" register in MIPS\n";
+				msg += "LINE " + to_string(line_num[j]) + ": no such \"" + st[k + 1] + "\" register in MIPS\n";
 		}
 
 		if (st[3].length() > 1 && st[3].substr(0, 2) == "0x") {
 			if (!is_hex_value(st[3]))
-				msg += "LINE " + to_string(j + 1) + ": Wrong hexadecimal format in immediate field\n";
+				msg += "LINE " + to_string(line_num[j]) + ": Wrong hexadecimal format in immediate field\n";
 		}
 
 		else if (!is_int_value(st[3]))
-			msg += "LINE " + to_string(j + 1) + ": Wrong decimal format in immediate field\n";
+			msg += "LINE " + to_string(line_num[j]) + ": Wrong decimal format in immediate field\n";
 
 		if (msg != "")
 			throw runtime_error(msg);
