@@ -69,6 +69,7 @@ int main() {
 		}
 		catch (runtime_error& re) {
 			debug << re.what() << endl;
+			no_errors = false;
 		}
 	}
 
@@ -117,9 +118,8 @@ void read_data(ifstream& input) {
 			if (tokens[0].find(':') != string::npos) {
 				labels[tokens[0].substr(0, tokens[0].length() - 1)] = i * 4;
 				string ss = with_no_first_spaces(s.substr(tokens[0].length()));
-				string str = tokens[0] + ss;
 
-				if (str.length() != tokens[0].length()) {
+				if (ss != "") {
 					line_num[i] = j;
 					instructions[i++] = ss;
 				}
@@ -346,7 +346,7 @@ string decode(string& s , int j) {
 	}
 	else
 	{
-		throw exception("unsupported MIPS Instruction");
+		throw runtime_error("LINE " + to_string(line_num[j]) + ": unsupported MIPS Instruction");
 	}
 
 		return machine_line;
