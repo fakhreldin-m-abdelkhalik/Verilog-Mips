@@ -19,7 +19,7 @@ initial begin
 	Registers[28] = "$gp"; Registers[29] = "$sp"; Registers[30] = "$fp"; Registers[31] = "$ra";
 	
 	$readmemh("Instructions.txt", cpu.IM.InstructionMemory);
-	$readmemb("Data.txt", cpu.DM.DataMemory);
+	$readmemh("Data.txt", cpu.DM.DataMemory);
 	#62320
 
 	$display("Final value of PC = %h", cpu.ProgCounter.OUT);
