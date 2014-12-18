@@ -8,8 +8,11 @@
 
 using namespace std;
 
+#define not_exist(map, key) map.count(key) == 0
+
 string instructions[1000];		//array of instructions
 int line_num[1000];
+string machine_lines[1000];
 int i;					//number of instructions
 bool no_errors = true;
 
@@ -30,6 +33,7 @@ string intstr_to_binstr(string& n, int length);			 //return a string in a binary
 string binstr_to_hexstr(string& s);				 //converts from binary string to hexadecimal string (32 bit)
 string decode(string& s, int j);				 //decoding passed instruction
 bool is_int_value(string& s);					 //check if string s contains digits only
+bool is_hex_value(string& s);					 //check if string s contains hexa digits only
 
 
 int main() {
@@ -57,16 +61,25 @@ int main() {
 	for (int j = 0; j < i; j++) {
 		try {
 			string ss = binstr_to_hexstr(decode(instructions[j], j));
-			if (no_errors)
-				output << ss << endl;
+			machine_lines[j] = ss;
 		}
 		catch (exception& e) {
-			debug << "LINE " << line_num[j] << " : " << e.what() << endl;
-			if (no_errors)
-				output << "Assembling Process failed, Please take a look at debug file." << endl;
+			debug << e.what() << endl;
+			no_errors = false;
+		}
+		catch (runtime_error& re) {
+			debug << re.what() << endl;
 			no_errors = false;
 		}
 	}
+
+	if (no_errors) {
+		for (int j = 0; j < i; j++) {
+			output << machine_lines[j] << endl;
+		}
+	}
+	else
+		output << "Assembling process failed, please take a look at debug file.." << endl;
 
 	output.close();
 	debug.close();
@@ -77,7 +90,7 @@ int main() {
 void read_data(ifstream& input) {
 	string s;
 	string file_name;
-	string tokens[5];
+	string tokens[1000];
 	int j = 0;
 
 	cout << "Please enter file name: ";
@@ -94,14 +107,28 @@ void read_data(ifstream& input) {
 		remove_comment(s);
 		s = with_no_first_spaces(s);
 		if (s[0] != 0) {
+			if (s.find("\*") != string::npos) {
+				while (getline(input, s) && s.find("*/") == string::npos)
+					j++;
+				j++;
+				continue;
+			}
 			tokenize(s, tokens, " ,()\t");					//toknize each line
 
 			if (tokens[0].find(':') != string::npos) {
 				labels[tokens[0].substr(0, tokens[0].length() - 1)] = i * 4;
 				string ss = with_no_first_spaces(s.substr(tokens[0].length()));
-				string str = tokens[0] + ss;
 
-				if (str.length() != tokens[0].length()) {
+				if (ss != "") {
+					line_num[i] = j;
+					instructions[i++] = ss;
+				}
+			}
+			else if (tokens[1][0] == ':') {
+				labels[tokens[0]] = i * 4;
+				string ss = with_no_first_spaces(s.substr(s.find(':') + 1));
+
+				if (ss != "") {
 					line_num[i] = j;
 					instructions[i++] = ss;
 				}
@@ -140,10 +167,10 @@ bool is_delimiter(char c, string delimiters) {
 }
 
 string with_no_first_spaces(string& s) {
-	int i = 0;
-	while (s[i] == ' ' || s[i] == '\t')
-		i++;
-	return s.substr(i);
+	int k = 0;
+	while (s[k] == ' ' || s[k] == '\t')
+		k++;
+	return s.substr(k);
 }
 
 void remove_comment(string& s) {
@@ -154,14 +181,18 @@ void remove_comment(string& s) {
 string intstr_to_binstr(string& n, int length) {
 	long long num;
 	if (n.length() > 1 && n.substr(0, 2) == "0x") {
-		stringstream ss;
-		ss << hex << n;
-		ss >> num;
+		if (is_hex_value(n)) {
+			stringstream ss;
+			ss << hex << n;
+			ss >> num;
+		}
+		else
+			throw exception("Wrong hexadecimal format in immediate field");
 	}
 	else if (is_int_value(n))
 		num = atoi(n.c_str());
 	else
-		throw exception("Wrong format in immediate field.");
+		throw exception("Wrong decimal format in immediate field.");
 	bitset <32> t(num);
 	return t.to_string().substr(32 - length);
 }
@@ -188,46 +219,134 @@ bool is_int_value(string& s) {
 	return true;
 }
 
+bool is_hex_value(string& s) {
+	int k = 2;
+	string tmp = "abcdefABCDEF";
+	for (; k < s.length(); k++) {
+		if (!isdigit(s[k]) && tmp.find(s[k]) == string::npos)
+			return false;
+	}
+	return true;
+}
+
 string decode(string& s , int j) {
-	//TO-DO
-	string st[4];
+	string st[1000];
 	string machine_line = "";
 	tokenize(s, st, " ,()\t");
 
 	if (st[0] == "add" ||  st[0] == "and" || st[0] == "or" || st[0] == "nor" || st[0] == "slt" ||
 		st[0] == "mult" || st[0] == "sub")
 	{
+		string msg = "";
+
+		for (int k = 0; k < 3; k++) {
+			if (not_exist(registers, st[k + 1]))
+				msg += "LINE " + to_string(line_num[j]) +": no such \"" + st[k + 1] + "\" register in MIPS\n";
+		}
+
+		if (msg != "")
+			throw runtime_error(msg);
+
 		machine_line = op_code[st[0]] + registers[st[2]] + registers[st[3]] + registers[st[1]] + "00000" + function[st[0]];
 	}
 	else if (st[0] == "addi" || st[0] == "andi" || st[0] == "ori" )
 	{
+		string msg = "";
+
+		for (int k = 0; k < 2; k++) {
+			if (not_exist(registers, st[k + 1]))
+				msg += "LINE " + to_string(line_num[j]) + ": no such \"" + st[k + 1] + "\" register in MIPS\n";
+		}
+
+		if (st[3].length() > 1 && st[3].substr(0, 2) == "0x") {
+			if (!is_hex_value(st[3]))
+				msg += "LINE " + to_string(line_num[j]) + ": Wrong hexadecimal format in immediate field\n";
+		}
+
+		else if (!is_int_value(st[3]))
+			msg += "LINE " + to_string(line_num[j]) + ": Wrong decimal format in immediate field\n";
+
+		if (msg != "")
+			throw runtime_error(msg);
+
 		machine_line = op_code[st[0]] + registers[st[2]] + registers[st[1]] + intstr_to_binstr(st[3], 16) ;
 	}
 	else if (st[0] == "beq")
 	{
+		string msg;
+
+		for (int k = 0; k < 2; k++) {
+			if (not_exist(registers, st[k + 1]))
+				msg += "LINE " + to_string(line_num[j]) + ": no such \"" + st[k + 1] + "\" register in MIPS\n";
+		}
+
+		if (not_exist(labels, st[3]))
+			msg += "LINE " + to_string(line_num[j]) + ": there is no such \"" + st[3] + "\" label in assembly code\n";
+
+		if (msg != "")
+			throw runtime_error(msg);
+
 		string x = to_string((labels[st[3]] - 4*(j + 1)) / 4);
 		machine_line = op_code[st[0]] + registers[st[1]] + registers[st[2]] + intstr_to_binstr(x , 16);
 	}
 	else if (st[0] == "sw" || st[0] == "lw")
 	{
+		string msg = "";
+		for (int k = 0; k < 3; k += 2) {
+			if (not_exist(registers, st[k + 1]))
+				msg += "LINE " + to_string(line_num[j]) + ": no such \"" + st[k + 1] + "\" register in MIPS\n";
+		}
+
+		if (st[2].length() > 1 && st[2].substr(0, 2) == "0x") {
+			if (!is_hex_value(st[2]))
+				msg += "LINE " + to_string(line_num[j]) + ": Wrong hexadecimal format in immediate field\n";
+		}
+
+		else if (!is_int_value(st[2]))
+			msg += "LINE " + to_string(line_num[j]) + ": Wrong decimal format in immediate field\n";
+
+		if (msg != "")
+			throw runtime_error(msg);
 		machine_line = op_code[st[0]] + registers[st[3]] + registers[st[1]] + intstr_to_binstr(st[2], 16);
 	}
 	else if (st[0] == "jal")
 	{
+		if (not_exist(labels, st[1]))
+			throw runtime_error("LINE " + to_string(line_num[j]) + ": there is no such \"" + st[1] + "\" label in assembly code\n");
 		string x = to_string(labels[st[1]] /4);
 		machine_line = op_code[st[0]] + intstr_to_binstr(x, 26);
 	}
 	else if (st[0] == "jr")
 	{
+		if (not_exist(registers, st[1]))
+			throw runtime_error("LINE " + to_string(line_num[j]) + ": no such \"" + st[1] + "\" register in MIPS\n");
 		machine_line = op_code[st[0]] + registers[st[1]] +"000000000000000" + function[st[0]];
 	}
 	else if (st[0] == "sll" )
 	{
+		string msg;
+
+		for (int k = 0; k < 2; k++) {
+			if (not_exist(registers, st[k + 1]))
+				msg += "LINE " + to_string(line_num[j]) + ": no such \"" + st[k + 1] + "\" register in MIPS\n";
+		}
+
+		if (st[3].length() > 1 && st[3].substr(0, 2) == "0x") {
+			if (!is_hex_value(st[3]))
+				msg += "LINE " + to_string(line_num[j]) + ": Wrong hexadecimal format in immediate field\n";
+		}
+
+		else if (!is_int_value(st[3]))
+			msg += "LINE " + to_string(line_num[j]) + ": Wrong decimal format in immediate field\n";
+
+		if (msg != "")
+			throw runtime_error(msg);
+
 		machine_line = op_code[st[0]] + "00000" + registers[st[2]] + registers[st[1]] + intstr_to_binstr(st[3], 5) + function[st[0]];
 	}
 	else
 	{
-		throw exception("unsupported MIPS Instruction");
+		throw runtime_error("LINE " + to_string(line_num[j]) + ": unsupported MIPS Instruction");
 	}
 
 		return machine_line;
