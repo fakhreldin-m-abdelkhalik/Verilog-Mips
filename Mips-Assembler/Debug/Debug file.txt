@@ -1,8 +1,0 @@
-LINE 7: Wrong decimal format in immediate field
-
-LINE 8: Wrong decimal format in immediate field
-
-LINE 17: Wrong decimal format in immediate field
-
-LINE 18: Wrong decimal format in immediate field
-

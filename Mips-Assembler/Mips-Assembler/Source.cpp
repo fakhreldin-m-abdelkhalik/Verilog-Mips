@@ -89,7 +89,7 @@ int main() {
 void read_data(ifstream& input) {
 	string s;
 	string file_name;
-	string tokens[5];
+	string tokens[1000];
 	int j = 0;
 
 	cout << "Please enter file name: ";
@@ -230,7 +230,7 @@ bool is_hex_value(string& s) {
 }
 
 string decode(string& s , int j) {
-	string st[4];
+	string st[1000];
 	string machine_line = "";
 	tokenize(s, st, " ,()\t");
 
