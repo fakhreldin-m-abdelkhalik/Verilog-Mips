@@ -30,6 +30,7 @@ string intstr_to_binstr(string& n, int length);			 //return a string in a binary
 string binstr_to_hexstr(string& s);				 //converts from binary string to hexadecimal string (32 bit)
 string decode(string& s, int j);				 //decoding passed instruction
 bool is_int_value(string& s);					 //check if string s contains digits only
+bool is_hex_value(string& s);					 //check if string s contains hexa digits only
 
 
 int main() {
@@ -140,10 +141,10 @@ bool is_delimiter(char c, string delimiters) {
 }
 
 string with_no_first_spaces(string& s) {
-	int i = 0;
-	while (s[i] == ' ' || s[i] == '\t')
-		i++;
-	return s.substr(i);
+	int k = 0;
+	while (s[k] == ' ' || s[k] == '\t')
+		k++;
+	return s.substr(k);
 }
 
 void remove_comment(string& s) {
@@ -154,14 +155,18 @@ void remove_comment(string& s) {
 string intstr_to_binstr(string& n, int length) {
 	long long num;
 	if (n.length() > 1 && n.substr(0, 2) == "0x") {
-		stringstream ss;
-		ss << hex << n;
-		ss >> num;
+		if (is_hex_value(n)) {
+			stringstream ss;
+			ss << hex << n;
+			ss >> num;
+		}
+		else
+			throw exception("Wrong hexadecimal format in immediate field");
 	}
 	else if (is_int_value(n))
 		num = atoi(n.c_str());
 	else
-		throw exception("Wrong format in immediate field.");
+		throw exception("Wrong decimal format in immediate field.");
 	bitset <32> t(num);
 	return t.to_string().substr(32 - length);
 }
@@ -188,8 +193,17 @@ bool is_int_value(string& s) {
 	return true;
 }
 
+bool is_hex_value(string& s) {
+	int k = 2;
+	string tmp = "abcdefABCDEF";
+	for (; k < s.length(); k++) {
+		if (!isdigit(s[k]) && tmp.find(s[k]) == string::npos)
+			return false;
+	}
+	return true;
+}
+
 string decode(string& s , int j) {
-	//TO-DO
 	string st[4];
 	string machine_line = "";
 	tokenize(s, st, " ,()\t");
