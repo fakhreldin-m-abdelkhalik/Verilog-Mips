@@ -1,3 +1,8 @@
 add $s0, $s1, $s2
 addi $h0, $h1, lkjadlfkjj
 beq $s0, $g1, branch
+lw $n1, 2sf($n2)
+sw $n1, 2sf($n2)
+jal jump
+jr $zx
+sll $z1, $z2, asf

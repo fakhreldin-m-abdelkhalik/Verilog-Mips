@@ -3,5 +3,21 @@ LINE 2: no such "$h1" register in MIPS
 LINE 2: Wrong decimal format in immediate field
 
 LINE 3: no such "$g1" register in MIPS
-LINE 3: the is no such "branch" label in assembly code
+LINE 3: there is no such "branch" label in assembly code
+
+LINE 4: no such "$n1" register in MIPS
+LINE 4: no such "$n2" register in MIPS
+LINE 4: Wrong decimal format in immediate field
+
+LINE 5: no such "$n1" register in MIPS
+LINE 5: no such "$n2" register in MIPS
+LINE 5: Wrong decimal format in immediate field
+
+LINE 6: there is no such "jump" label in assembly code
+
+LINE 7: no such "$zx" register in MIPS
+
+LINE 8: no such "$z1" register in MIPS
+LINE 8: no such "$z2" register in MIPS
+LINE 8: Wrong decimal format in immediate field
 
