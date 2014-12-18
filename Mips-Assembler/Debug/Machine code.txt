@@ -1,2 +1,1 @@
-12100000
-02108020
+Assembling process failed, please take a look at debug file..

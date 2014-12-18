@@ -347,7 +347,7 @@ string decode(string& s , int j) {
 	}
 	else
 	{
-		throw runtime_error("LINE " + to_string(line_num[j]) + ": unsupported MIPS Instruction");
+		throw runtime_error("LINE " + to_string(line_num[j]) + ": unsupported MIPS Instruction\n");
 	}
 
 		return machine_line;

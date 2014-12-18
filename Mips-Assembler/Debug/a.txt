@@ -1,7 +1,9 @@
-beq $s0, $s0, l
+addu $a1, $a2, $a3
 
-l 	  :  	 		
+add  $a22, $a1, $a3
 
+addi $s1 , $s2, 123a
 
+addi $s1 , $s2, habc
 
-add $s0, $s0, $s0
+beq $a0, $a0, label
