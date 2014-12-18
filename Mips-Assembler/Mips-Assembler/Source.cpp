@@ -56,8 +56,12 @@ int main() {
 		output << e.what() << endl;
 		return 0;
 	}
+	catch (out_of_range& ex) {
+		debug << ex.what() << endl;
+		return 0;
+	}
 
-	//writing the machine code into file
+	//writing the machine code into machine_lines array
 	for (int j = 0; j < i; j++) {
 		try {
 			string ss = binstr_to_hexstr(decode(instructions[j], j));
@@ -71,11 +75,17 @@ int main() {
 			debug << re.what() << endl;
 			no_errors = false;
 		}
+		catch (out_of_range& ex) {
+			debug << ex.what() << endl;
+			no_errors = false;
+		}
 	}
 
+	//writing machine code into file
 	if (no_errors) {
 		for (int j = 0; j < i; j++) {
-			output << machine_lines[j] << endl;
+			for (int k = 0; k < 4; k++)
+				output << machine_lines[j].substr(k + k, 2) << endl;
 		}
 	}
 	else
