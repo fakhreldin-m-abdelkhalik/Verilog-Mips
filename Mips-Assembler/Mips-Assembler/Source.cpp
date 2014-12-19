@@ -57,7 +57,7 @@ int main() {
 		return 0;
 	}
 	catch (out_of_range& ex) {
-		debug << ex.what() << endl;
+		output << ex.what() << endl;
 		return 0;
 	}
 
@@ -119,6 +119,8 @@ void read_data(ifstream& input) {
 		s = with_no_first_spaces(s);
 		if (s[0] != 0) {
 			if (s.find("/*") != string::npos) {
+				if (s.find("*/") != string::npos)
+					continue;
 				while (getline(input, s) && s.find("*/") == string::npos)
 					j++;
 				j++;
