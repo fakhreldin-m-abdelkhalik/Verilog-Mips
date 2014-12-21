@@ -6,6 +6,7 @@
 #include <bitset>
 #include <sstream>
 #include <exception>
+#include <direct.h>
 
 using namespace std;
 
@@ -16,6 +17,9 @@ int line_num[1000];
 string machine_lines[1000];
 int i;					//number of instructions
 bool no_errors = true;
+bool created = false;
+string file_name;
+string folder_name;
 
 map <string, string> op_code;
 map <string, string> function;
@@ -47,21 +51,19 @@ int main() {
 	ofstream output;
 	ofstream debug;
 
-	output.open("Machine code.txt");
-	debug.open("Debug file.txt");
-
 	try {
 		read_data(code);		
 	}
 	catch (exception& e) {
-		output << e.what() << endl;
+		cout << e.what() << endl;
+		return 0;
 	}
 	catch (runtime_error& e) {
-		output << e.what() << endl;
+		cout << e.what() << endl;
 		return 0;
 	}
 	catch (out_of_range& ex) {
-		output << ex.what() << endl;
+		cout << ex.what() << endl;
 		return 0;
 	}
 
@@ -72,29 +74,53 @@ int main() {
 			machine_lines[j] = ss;
 		}
 		catch (exception& e) {
+			if (!created) {
+				mkdir(folder_name.c_str());
+				created = 1;
+			}
+			if (no_errors)
+				debug.open(folder_name + "/Debug-File.txt");
 			debug << e.what() << endl;
 			no_errors = false;
 		}
 		catch (runtime_error& re) {
+			if (!created) {
+				mkdir(folder_name.c_str());
+				created = 1;
+			}
+			if (no_errors)
+				debug.open(folder_name + "/Debug-File.txt");
 			debug << re.what() << endl;
 			no_errors = false;
 		}
 		catch (out_of_range& ex) {
+			if (!created) {
+				mkdir(folder_name.c_str());
+				created = 1;
+			}
+			if (no_errors)
+				debug.open(folder_name + "/Debug-File.txt");
 			debug << ex.what() << endl;
 			no_errors = false;
 		}
 	}
 
 	//writing machine code into file
-	if (no_errors) {
+	if (no_errors && i) {
+		if (!created)
+			mkdir(folder_name.c_str());
+		output.open(folder_name + "/Machine-Code.txt");
 		for (int j = 0; j < i; j++) {
 			for (int k = 0; k < 4; k++)
 				output << machine_lines[j].substr(k + k, 2) << endl;
 		}
 	}
-	else
+	else if (i) {
+		if (!created)
+			mkdir(folder_name.c_str());
+		output.open(folder_name + "/Machine-Code.txt");
 		output << "Assembling process failed, please take a look at debug file.." << endl;
-
+	}
 	output.close();
 	debug.close();
 
@@ -103,19 +129,22 @@ int main() {
 
 void read_data(ifstream& input) {
 	string s;
-	string file_name;
 	string tokens[1000];
 	int j = 0;
 
-	cout << "Please enter file name: ";
+	cout << "Please enter file name followed by it's extension (ex: Assembly Code.txt): ";
 
 	getline(cin, file_name);
 
 	input.open(file_name);				//open the source of assembly code file
 
 	if (input.fail()) {
-		throw runtime_error("Failed to open input file.");
+		cout << "Failed to open input file" << endl;
+		read_data(input);
 	}
+
+	int pos = file_name.find('.');
+	folder_name = file_name.substr(0, pos);
 
 	while (getline(input, s)) {
 		j++;
