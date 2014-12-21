@@ -20,7 +20,7 @@ initial begin
 	
 	$readmemh("Instructions.txt", cpu.IM.InstructionMemory);
 	$readmemh("Data.txt", cpu.DM.DataMemory);
-	#62320
+	#81180
 
 	$display("Final value of PC = %h", cpu.ProgCounter.OUT);
 	for (i = 0; i < 32; i = i + 1) begin
