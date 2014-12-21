@@ -18,9 +18,8 @@ initial begin
 	Registers[24] = "$t8"; Registers[25] = "$t9"; Registers[26] = "$k0"; Registers[27] = "$k1";
 	Registers[28] = "$gp"; Registers[29] = "$sp"; Registers[30] = "$fp"; Registers[31] = "$ra";
 	
-	$readmemh("C:/Users/Youssef/Desktop/MIPS/Verilog-Mips/Programs/Factorial/Instructions.txt", cpu.IM.InstructionMemory);
-	
-	#62320
+	$readmemh("Instructions.txt", cpu.IM.InstructionMemory);
+	#60680
 
 	$display("Final value of PC = %h", cpu.ProgCounter.OUT);
 	for (i = 0; i < 32; i = i + 1) begin
