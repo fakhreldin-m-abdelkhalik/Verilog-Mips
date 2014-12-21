@@ -2,6 +2,7 @@
 module InstructionMemory(PC,Instruction);
 	
 	input wire [31:0] PC;
+
 	output wire [31:0] Instruction;
 
 	parameter IMSize = 1024;

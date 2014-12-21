@@ -1,4 +1,5 @@
 module SignExtension(InputData,OutputData);
+
 	input [15:0]InputData;
 	output reg [31:0]OutputData;
 	
@@ -12,4 +13,5 @@ module SignExtension(InputData,OutputData);
 			OutputData <=InputData;
 			end
 		end
+
 endmodule

@@ -1,5 +1,6 @@
 `timescale 1ps/1ps
 module MIPS;
+
 	reg clk;
 	wire [31:0] JumpReg_mux_PC;
 	wire [31:0] PC_output;
@@ -80,4 +81,5 @@ module MIPS;
 	begin
 		#410 clk=~clk;
 	end
+
 endmodule
