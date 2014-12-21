@@ -132,7 +132,7 @@ void read_data(ifstream& input) {
 	string tokens[1000];
 	int j = 0;
 
-	cout << "Please enter file name followed by it's extension (ex: Assembly Code.txt): ";
+	cout << "Please enter file name followed by it's extension (ex: Assembly Code.txt): " << endl;
 
 	getline(cin, file_name);
 
