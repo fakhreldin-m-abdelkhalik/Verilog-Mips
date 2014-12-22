@@ -1,5 +1,5 @@
 `timescale 1ps/1ps
-module TB_Concatenation;
+module TB_IsPowerOf2;
 
 integer i;
 reg [23:0] Registers[0:31];
