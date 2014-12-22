@@ -1,2 +1,0 @@
-addi 	$s0,$0,17
-andi 	$s1,$s0,0xFFFFFFFE

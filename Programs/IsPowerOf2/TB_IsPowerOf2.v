@@ -1,5 +1,5 @@
 `timescale 1ps/1ps
-module TB_Odd_Decrement;
+module TB_Concatenation;
 
 integer i;
 reg [23:0] Registers[0:31];
@@ -18,9 +18,9 @@ initial begin
 	Registers[24] = "$t8"; Registers[25] = "$t9"; Registers[26] = "$k0"; Registers[27] = "$k1";
 	Registers[28] = "$gp"; Registers[29] = "$sp"; Registers[30] = "$fp"; Registers[31] = "$ra";
 	
-	$readmemh("Instructions.txt", cpu.IM.InstructionMemory);
+	$readmemh("Machine-Code.txt", cpu.IM.InstructionMemory);
 	
-	#1640
+	#4920
 
 	$display("Final value of PC = %h", cpu.ProgCounter.OUT);
 	for (i = 0; i < 32; i = i + 1) begin
