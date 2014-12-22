@@ -1,0 +1,8 @@
+	addi $s0, $0 , 16384    #$s0 = n
+	addi $t0, $s0, -1	#$t0 = n - 1
+	and  $t1, $s0, $t0	#$t1 = n & (n - 1)
+	addi $v0, $0 , 1	#$v0 = 1 (output)
+	beq  $t1, $0 , EXIT	#if power of 2 EXIT with ouput -> ($v0 = 1)
+	addi $v0, $0 , 0	#else $v0 = 0
+
+EXIT:
